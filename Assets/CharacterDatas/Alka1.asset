@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c803965f7fa09024a9a103990c944529, type: 3}
+  m_Name: Alka1
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: "\uC54C\uCE74"
+  moveSpeed: 1
+  moveRadius: 5
+  minIdleTime: 1
+  maxIdleTime: 3
+  idleSprite: {fileID: 21300000, guid: 00b6bc3774184be4a864197e552e43d4, type: 3}
+  needs:
+  - type: 1
+    minInterval: 10
+    maxInterval: 20
+  favoriteFood: 1
+  needRequirements:
+  - needType: 1
+    resolveType: 1
+  normalSprite: {fileID: 21300000, guid: 00b6bc3774184be4a864197e552e43d4, type: 3}
+  happySprite: {fileID: 21300000, guid: 4618a39c46eaa994588944a1f3720e33, type: 3}
+  sadSprite: {fileID: 21300000, guid: aa8bb60c755e96a4c8fa96c307997ba0, type: 3}
+  angrySprite: {fileID: 21300000, guid: 99e684fa14c4aab4b9814e3d48cbdf03, type: 3}
+  sleepySprite: {fileID: 21300000, guid: 1a7afed08987ef948b6bdacff32ca5a1, type: 3}
+  surprisedSprite: {fileID: 21300000, guid: 7d209d59b75ec3045bcbb3e2870766f1, type: 3}
+  dialogues:
+  - type: 0
+    lines:
+    - "\uC54C\uB8E8\uC54C\uB8E8"
+    - "\uC57C\uB974"
+    - "\uAC2C\uC758 \uD0A4\uC54C"
+    - "\uC641\uD31F \uC090\uB96B\uB71D \uBE7B\uBE7B"
+  - type: 1
+    lines:
+    - "\uBC25\uC918"
+    - "\uBD88\uB2ED\uBA39\uACE0\uC2F6"
+  - type: 3
+    lines:
+    - 3.14
+    - "\uAC00\uB85C\uC0C8"
+  - type: 5
+    lines:
+    - HI!
+  - type: 6
+    lines:
+    - NO
