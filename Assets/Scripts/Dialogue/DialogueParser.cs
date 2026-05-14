@@ -4,17 +4,22 @@ using System.Collections.Generic;
 public static class DialogueParser
 {
     public static Dictionary
-    <DialogueType, List<string>>
+    <DialogueType, List<DialogueEntry>>
     Parse(string script)
     {
         Dictionary
-        <DialogueType, List<string>>
+        <DialogueType,
+        List<DialogueEntry>>
         result =
             new Dictionary
-            <DialogueType, List<string>>();
+            <DialogueType,
+            List<DialogueEntry>>();
 
         DialogueType currentType =
             DialogueType.Idle;
+
+        GrowthStage currentStage =
+            GrowthStage.Baby;
 
         string[] lines =
             script.Split('\n');
@@ -30,23 +35,34 @@ public static class DialogueParser
             if (line.StartsWith("[")
                 && line.EndsWith("]"))
             {
-                string typeName =
+                string content =
                     line.Substring(
                         1,
                         line.Length - 2);
 
-                if (Enum.TryParse(
-                    typeName,
-                    out DialogueType type))
-                {
-                    currentType = type;
+                string[] split =
+                    content.Split(':');
 
-                    if (!result.ContainsKey(type))
-                    {
-                        result.Add(
-                            type,
-                            new List<string>());
-                    }
+                if (split.Length >= 1)
+                {
+                    Enum.TryParse(
+                        split[0],
+                        out currentType);
+                }
+
+                if (split.Length >= 2)
+                {
+                    Enum.TryParse(
+                        split[1],
+                        out currentStage);
+                }
+
+                if (!result.ContainsKey(
+                    currentType))
+                {
+                    result.Add(
+                        currentType,
+                        new List<DialogueEntry>());
                 }
 
                 continue;
@@ -57,11 +73,16 @@ public static class DialogueParser
             {
                 result.Add(
                     currentType,
-                    new List<string>());
+                    new List<DialogueEntry>());
             }
 
             result[currentType]
-                .Add(line);
+                .Add(
+                    new DialogueEntry
+                    {
+                        text = line,
+                        stage = currentStage
+                    });
         }
 
         return result;

@@ -7,6 +7,8 @@ public class NeedSystem : MonoBehaviour
 
     private CharacterController controller;
 
+    private CharacterGrowth characterGrowth;
+
     private NeedType currentNeed =
         NeedType.None;
 
@@ -20,6 +22,8 @@ public class NeedSystem : MonoBehaviour
     {
         controller =
             GetComponent<CharacterController>();
+        characterGrowth = 
+            GetComponent<CharacterGrowth>();
     }
 
     private void Start()
@@ -47,6 +51,8 @@ public class NeedSystem : MonoBehaviour
 
     public void ResolveNeed()
     {
+        characterGrowth.AddGrowthPoint(1);
+
         currentNeed = NeedType.None;
 
         needView.Hide();

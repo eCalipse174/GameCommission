@@ -1,90 +1,79 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDialogueRuntime : MonoBehaviour
+public class CharacterDialogueRuntime
+    : MonoBehaviour
 {
-    private Dictionary<DialogueType,
-        List<string>> dialogueMap =
-        new Dictionary<DialogueType,
-        List<string>>();
+    [SerializeField]
+    [TextArea(20, 40)]
+    private string dialogueScript;
 
-    private CharacterController controller;
+    private Dictionary
+    <DialogueType,
+    List<DialogueEntry>>
+    dialogueMap;
+
+    private CharacterGrowth growth;
 
     private void Awake()
     {
-        controller =
-            GetComponent<CharacterController>();
+        growth =
+            GetComponent<CharacterGrowth>();
 
         BuildRuntimeData();
     }
 
     private void BuildRuntimeData()
     {
-        foreach (DialogueData data
-            in controller.Data.dialogues)
-        {
-            if (!dialogueMap.ContainsKey(
-                data.type))
-            {
-                dialogueMap.Add(
-                    data.type,
-                    new List<string>());
-            }
-
-            dialogueMap[data.type]
-                .AddRange(data.lines);
-        }
+        dialogueMap =
+            DialogueParser.Parse(
+                dialogueScript);
     }
 
     public string GetRandomDialogue(
         DialogueType type)
     {
         if (!dialogueMap.ContainsKey(type))
-            return string.Empty;
-
-        List<string> list =
-            dialogueMap[type];
-
-        if (list.Count == 0)
-            return string.Empty;
-
-        return list[
-            Random.Range(0, list.Count)];
-    }
-
-    public void AddDialogue(
-        DialogueType type,
-        string line)
-    {
-        if (!dialogueMap.ContainsKey(type))
         {
-            dialogueMap.Add(
-                type,
-                new List<string>());
+            return string.Empty;
         }
 
-        dialogueMap[type].Add(line);
-    }
+        List<DialogueEntry> valid =
+            new List<DialogueEntry>();
 
-    public void RemoveDialogue(
-        DialogueType type,
-        string line)
-    {
-        if (!dialogueMap.ContainsKey(type))
-            return;
-
-        dialogueMap[type]
-            .Remove(line);
-    }
-
-    public List<string> GetDialogues(
-        DialogueType type)
-    {
-        if (!dialogueMap.ContainsKey(type))
+        foreach (DialogueEntry entry
+            in dialogueMap[type])
         {
-            return new List<string>();
+            if (entry.stage ==
+                growth.CurrentStage)
+            {
+                valid.Add(entry);
+            }
         }
 
-        return dialogueMap[type];
+        if (valid.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        int index =
+            Random.Range(
+                0,
+                valid.Count);
+
+        return valid[index].text;
+    }
+
+    public void SetScript(
+        string script)
+    {
+        dialogueScript = script;
+
+        BuildRuntimeData();
+    }
+
+    public string GetScript()
+    {
+        return dialogueScript;
     }
 }

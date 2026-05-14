@@ -37,8 +37,7 @@ public class RandomMoveNode : BTNode
         if (!started)
         {
             Vector2 randomPos =
-                (Vector2)owner.position +
-                Random.insideUnitCircle * moveRadius;
+                MovementArea.Instance.GetRandomPoint();
 
             movement.SetTarget(randomPos);
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class CharacterNeedResolver : MonoBehaviour
+public class CharacterNeedResolver
+    : MonoBehaviour
 {
     private CharacterController controller;
 
@@ -15,14 +16,16 @@ public class CharacterNeedResolver : MonoBehaviour
             GetComponent<NeedSystem>();
     }
 
-    public bool TryResolve(ItemObject item)
+    public bool TryResolve(
+        ItemObject item)
     {
         NeedType currentNeed =
             needSystem.CurrentNeed;
 
-        if (currentNeed == NeedType.None)
+        if (currentNeed ==
+            NeedType.None)
         {
-            Reject(item);
+            Ignore(item);
 
             return false;
         }
@@ -31,16 +34,27 @@ public class CharacterNeedResolver : MonoBehaviour
         {
             case NeedType.Hunger:
                 return HandleFood(item);
+
+            case NeedType.Play:
+                return HandleToy(item);
+
+            case NeedType.Sleep:
+                return HandleBed(item);
+
+            case NeedType.Dirty:
+                return HandleClean(item);
         }
 
-        Reject(item);
+        Ignore(item);
 
         return false;
     }
 
-    private bool HandleFood(ItemObject item)
+    private bool HandleFood(
+        ItemObject item)
     {
-        if (IsFavoriteFood(item.ItemType))
+        if (IsFavoriteFood(
+            item.ItemType))
         {
             Resolve(item);
 
@@ -52,21 +66,79 @@ public class CharacterNeedResolver : MonoBehaviour
         return false;
     }
 
-    private bool IsFavoriteFood(ItemType itemType)
+    private bool HandleToy(
+        ItemObject item)
     {
-        return itemType.ToString() ==
-               controller.Data.favoriteFood.ToString();
+        if (item.ItemType ==
+            ItemType.Toy)
+        {
+            Resolve(item);
+
+            return true;
+        }
+
+        Reject(item);
+
+        return false;
     }
 
-    private void Resolve(ItemObject item)
+    private bool HandleBed(
+        ItemObject item)
+    {
+        if (item.ItemType ==
+            ItemType.Bed)
+        {
+            Resolve(item);
+
+            return true;
+        }
+
+        Reject(item);
+
+        return false;
+    }
+
+    private bool HandleClean(
+        ItemObject item)
+    {
+        if (item.ItemType ==
+            ItemType.Soap ||
+            item.ItemType ==
+            ItemType.Towel)
+        {
+            Resolve(item);
+
+            return true;
+        }
+
+        Reject(item);
+
+        return false;
+    }
+
+    private bool IsFavoriteFood(
+        ItemType itemType)
+    {
+        return itemType ==
+               controller.Data
+                   .favoriteFood;
+    }
+
+    private void Resolve(
+        ItemObject item)
     {
         Debug.Log(
             $"{name} accepted {item.ItemType}");
 
         needSystem.ResolveNeed();
+
+        controller.EmotionSystem
+            .SetEmotion(
+                EmotionType.Happy);
     }
 
-    private void Reject(ItemObject item)
+    private void Reject(
+        ItemObject item)
     {
         Debug.Log(
             $"{name} rejected {item.ItemType}");
@@ -78,6 +150,21 @@ public class CharacterNeedResolver : MonoBehaviour
         DragItem dragItem =
             item.GetComponent<DragItem>();
 
-        dragItem.ReturnToStartPosition();
+        if (dragItem != null)
+        {
+            dragItem.ReturnToStartPosition();
+        }
+    }
+
+    private void Ignore(
+        ItemObject item)
+    {
+        DragItem dragItem =
+            item.GetComponent<DragItem>();
+
+        if (dragItem != null)
+        {
+            dragItem.ReturnToStartPosition();
+        }
     }
 }

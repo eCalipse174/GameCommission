@@ -23,9 +23,16 @@ public class CharacterMovement : MonoBehaviour
 
     public void SetTarget(Vector2 target)
     {
-        targetPosition = target;
+        targetPosition =
+    MovementArea.Instance
+        .ClampPosition(target);
 
         isMoving = true;
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 
     public void Stop()
@@ -53,11 +60,20 @@ public class CharacterMovement : MonoBehaviour
         if (!isMoving)
             return;
 
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            targetPosition,
-            moveSpeed * Time.deltaTime
-        );
+        Vector2 nextPosition =
+    Vector2.MoveTowards(
+        transform.position,
+        targetPosition,
+        moveSpeed * Time.deltaTime
+    );
+
+        nextPosition =
+            MovementArea.Instance
+                .ClampPosition(
+                    nextPosition);
+
+        transform.position =
+            nextPosition;
 
         if (ReachedTarget())
         {

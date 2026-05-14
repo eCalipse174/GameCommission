@@ -4,18 +4,30 @@ using UnityEngine.UI;
 public class DialogueEditorUI : MonoBehaviour
 {
     [SerializeField]
-    private InputField inputField; 
-    
+    private InputField scriptInputField;
+
     [SerializeField]
     private Dropdown typeDropdown;
 
     private CharacterDialogueRuntime
         currentCharacter;
 
+    [SerializeField]
+    private CharacterDialogueRuntime
+    testCharacter;
+
+    private void Start()
+    {
+        SetCharacter(testCharacter);
+    }
+
     public void SetCharacter(
-        CharacterDialogueRuntime target)
+    CharacterDialogueRuntime target)
     {
         currentCharacter = target;
+
+        scriptInputField.text =
+            target.GetScript();
     }
 
     public void AddDialogue()
@@ -24,7 +36,7 @@ public class DialogueEditorUI : MonoBehaviour
             return;
 
         string text =
-            inputField.text;
+            scriptInputField.text;
 
         if (string.IsNullOrEmpty(text))
             return;
@@ -33,11 +45,17 @@ public class DialogueEditorUI : MonoBehaviour
             (DialogueType)
             typeDropdown.value;
 
-        currentCharacter
-            .AddDialogue(
-                type,
-                text);
+        currentCharacter.SetScript(text);
 
-        inputField.text = string.Empty;
+        scriptInputField.text = string.Empty;
+    }
+
+    public void ApplyScript()
+    {
+        if (currentCharacter == null)
+            return;
+
+        currentCharacter.SetScript(
+            scriptInputField.text);
     }
 }

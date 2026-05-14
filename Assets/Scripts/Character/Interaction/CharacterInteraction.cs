@@ -126,7 +126,15 @@ public class CharacterInteraction : MonoBehaviour
             GetMouseWorldPosition() +
             dragOffset;
 
-        transform.position = target;
+        Vector2 clamped =
+            MovementArea.Instance
+                .ClampPosition(target);
+
+        transform.position =
+            new Vector3(
+                clamped.x,
+                clamped.y,
+                transform.position.z);
     }
 
     private void OnTap()

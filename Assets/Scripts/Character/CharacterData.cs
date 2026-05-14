@@ -3,8 +3,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Character Data")]
 public class CharacterData : ScriptableObject
 {
-    [Header("Info")]
+    [Header("Profile")]
+
     public string characterName;
+
+    public GenderType gender;
+
+    [TextArea(3, 6)]
+    public string description;
+
+    [Space]
 
     [Header("Movement")]
     public float moveSpeed;

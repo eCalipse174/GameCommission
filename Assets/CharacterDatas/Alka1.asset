@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Alka1
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
   characterName: "\uC54C\uCE74"
+  gender: 3
+  description: "\uC54C\uB8E8\uC54C\uB8E8\uC54C\uB8E8\uC54C\uB8E8"
   moveSpeed: 1
   moveRadius: 5
   minIdleTime: 1
@@ -22,10 +24,15 @@ MonoBehaviour:
   - type: 1
     minInterval: 10
     maxInterval: 20
+  - type: 3
+    minInterval: 10
+    maxInterval: 20
   favoriteFood: 1
   needRequirements:
   - needType: 1
     resolveType: 1
+  - needType: 3
+    resolveType: 4
   normalSprite: {fileID: 21300000, guid: 00b6bc3774184be4a864197e552e43d4, type: 3}
   happySprite: {fileID: 21300000, guid: 4618a39c46eaa994588944a1f3720e33, type: 3}
   sadSprite: {fileID: 21300000, guid: aa8bb60c755e96a4c8fa96c307997ba0, type: 3}
