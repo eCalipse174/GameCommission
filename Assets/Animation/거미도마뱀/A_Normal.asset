@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05872f21a790fe419047807a821b2e3, type: 3}
   m_Name: A_Normal
   m_EditorClassIdentifier: Assembly-CSharp::EmotionAnimationSet
-  idle: {fileID: 7400000, guid: 9c66de98511b72f40aeb85d3bf9e71b7, type: 2}
-  walk: {fileID: 7400000, guid: 097c525cdac28b246b183e26a29e159e, type: 2}
-  drag: {fileID: 7400000, guid: 9c66de98511b72f40aeb85d3bf9e71b7, type: 2}
+  idle: {fileID: 7400000, guid: a6e4e0425bc149c4a8e9d65bf0510bd2, type: 2}
+  walk: {fileID: 7400000, guid: bf52d17dd5a3c1b4ebb5081837c4362c, type: 2}
+  drag: {fileID: 7400000, guid: a6e4e0425bc149c4a8e9d65bf0510bd2, type: 2}

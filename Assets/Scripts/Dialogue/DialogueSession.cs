@@ -94,21 +94,13 @@ public class DialogueSession
     }
 
     private void FaceEachOther(
-        CharacterController a,
-        CharacterController b)
+    CharacterController a,
+    CharacterController b)
     {
-        SpriteRenderer aRenderer =
-            a.GetComponent<SpriteRenderer>();
+        CharacterAnimator aAnimator = a.GetComponent<CharacterAnimator>();
+        CharacterAnimator bAnimator = b.GetComponent<CharacterAnimator>();
 
-        SpriteRenderer bRenderer =
-            b.GetComponent<SpriteRenderer>();
-
-        bool aLeft =
-            a.transform.position.x >
-            b.transform.position.x;
-
-        aRenderer.flipX = aLeft;
-
-        bRenderer.flipX = !aLeft;
+        aAnimator.FaceToward(b.transform.position);
+        bAnimator.FaceToward(a.transform.position);
     }
 }

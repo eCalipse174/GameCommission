@@ -13,13 +13,16 @@ public class CharacterMovement
 
     private bool isMoving;
 
+    private SpriteRenderer spriteRenderer;
+
     public Vector2 MoveDirection =>
         moveDirection;
 
     private void Awake()
     {
-        controller =
-            GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Initialize(
@@ -75,42 +78,25 @@ public class CharacterMovement
         if (controller.IsLocked)
             return;
 
-
-
-        if (!isMoving)
-            return;
-
-        Vector2 currentPosition =
-            transform.position;
-
-        moveDirection =
-            (
-                targetPosition -
-                currentPosition
-            ).normalized;
-
-        Vector2 nextPosition =
-            Vector2.MoveTowards(
+        if (isMoving)
+        {
+            Vector2 currentPosition = transform.position;
+            moveDirection = (targetPosition - currentPosition).normalized;
+            Vector2 nextPosition = Vector2.MoveTowards(
                 currentPosition,
                 targetPosition,
-                moveSpeed *
-                Time.deltaTime
-            );
+                moveSpeed * Time.deltaTime);
+            nextPosition = MovementArea.Instance.ClampPosition(nextPosition);
+            transform.position = nextPosition;
 
-        nextPosition =
-            MovementArea.Instance
-                .ClampPosition(
-                    nextPosition);
-
-        transform.position =
-            nextPosition;
-
-        if (ReachedTarget())
-        {
-            isMoving = false;
-
-            moveDirection =
-                Vector2.zero;
+            if (ReachedTarget())
+            {
+                isMoving = false;
+                moveDirection = Vector2.zero;
+            }
         }
+
+        // 항상 y값 기반으로 sortingOrder 업데이트
+        spriteRenderer.sortingOrder = Mathf.RoundToInt(-transform.position.y * 10);
     }
 }

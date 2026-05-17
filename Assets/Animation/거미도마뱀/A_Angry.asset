@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: A_Angry
   m_EditorClassIdentifier: Assembly-CSharp::EmotionAnimationSet
   idle: {fileID: 7400000, guid: 93a23cabb15ffc44c910538b3dda22ce, type: 2}
-  walk: {fileID: 7400000, guid: 1407533b439ac004a8233059ff3dea95, type: 2}
+  walk: {fileID: 7400000, guid: 5a89566f6ec913a4ea7ecb67777092b5, type: 2}
   drag: {fileID: 7400000, guid: 93a23cabb15ffc44c910538b3dda22ce, type: 2}

@@ -26,6 +26,7 @@ public class EmotionSystem : MonoBehaviour
     {
         currentEmotion = emotion;
         animator.SetEmotion(emotion);
+        Debug.Log(animator.gameObject.name);
 
         Debug.Log(
             $"{name} Emotion: {emotion}");

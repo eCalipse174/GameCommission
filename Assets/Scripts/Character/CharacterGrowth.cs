@@ -50,10 +50,12 @@ public class CharacterGrowth
     public int CurrentGrowthPoint =>
         currentGrowthPoint;
 
+    private CharacterAnimator characterAnimator;
+
     private void Awake()
     {
-        movement =
-            GetComponent<CharacterMovement>();
+        movement = GetComponent<CharacterMovement>();
+        characterAnimator = GetComponent<CharacterAnimator>(); // 추가
     }
 
     public void LoadGrowthData(
@@ -110,18 +112,11 @@ public class CharacterGrowth
     private void ApplyAdultResources()
     {
         if (adultSprite != null)
-        {
-            spriteRenderer.sprite =
-                adultSprite;
-        }
+            spriteRenderer.sprite = adultSprite;
 
         if (adultAnimator != null)
-        {
-            animator.runtimeAnimatorController =
-                adultAnimator;
-        }
+            characterAnimator.ApplyController(adultAnimator); // 이걸로 교체
 
-        movement.SetMoveSpeed(
-            adultMoveSpeed);
+        movement.SetMoveSpeed(adultMoveSpeed);
     }
 }

@@ -574,7 +574,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.26}
   m_Radius: 1.2157143
 --- !u!212 &237888819
 SpriteRenderer:
@@ -869,9 +869,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
   animator: {fileID: 237888834}
   spriteRenderer: {fileID: 237888819}
-  baseIdle: {fileID: 7400000, guid: 9c66de98511b72f40aeb85d3bf9e71b7, type: 2}
-  baseWalk: {fileID: 7400000, guid: 097c525cdac28b246b183e26a29e159e, type: 2}
-  baseDrag: {fileID: 7400000, guid: 9c66de98511b72f40aeb85d3bf9e71b7, type: 2}
+  baseIdle: {fileID: 7400000, guid: a6e4e0425bc149c4a8e9d65bf0510bd2, type: 2}
+  baseWalk: {fileID: 7400000, guid: bf52d17dd5a3c1b4ebb5081837c4362c, type: 2}
+  baseDrag: {fileID: 7400000, guid: a6e4e0425bc149c4a8e9d65bf0510bd2, type: 2}
   normalSet: {fileID: 11400000, guid: a18f1312ed7a7144bb09cd068ea29d31, type: 2}
   happySet: {fileID: 11400000, guid: c0941e55bb1894948aa4ff5f279ddf96, type: 2}
   sadSet: {fileID: 11400000, guid: b98589a0e31ba264e81eed74bea7137a, type: 2}
@@ -907,7 +907,7 @@ RectTransform:
   m_GameObject: {fileID: 349223206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1925001847}
@@ -915,8 +915,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.1, y: 1.74}
-  m_SizeDelta: {x: 805, y: 162.4059}
+  m_AnchoredPosition: {x: -0.13, y: 3.55}
+  m_SizeDelta: {x: 72, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349223208
 MonoBehaviour:
@@ -1001,7 +1001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2bea773cf6182dd4596edc3d3531016c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1682,7 +1682,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 50
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2743,7 +2743,7 @@ RectTransform:
   m_GameObject: {fileID: 1407761362}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1167403911}
@@ -2751,8 +2751,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.1, y: 1.74}
-  m_SizeDelta: {x: 805, y: 162.4059}
+  m_AnchoredPosition: {x: 0.05, y: 3.48}
+  m_SizeDelta: {x: 72, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1407761364
 MonoBehaviour:
@@ -2774,7 +2774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2bea773cf6182dd4596edc3d3531016c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2919,7 +2919,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 50
   m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3761,7 +3761,6 @@ GameObject:
   - component: {fileID: 2102582521}
   - component: {fileID: 2102582520}
   - component: {fileID: 2102582519}
-  - component: {fileID: 2102582518}
   - component: {fileID: 2102582517}
   - component: {fileID: 2102582516}
   - component: {fileID: 2102582515}
@@ -3780,7 +3779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2102582512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3863,18 +3862,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NeedSystem
   needView: {fileID: 2102582516}
---- !u!114 &2102582518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102582511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0bce8ad2856a6541aca4ad03dfc0ee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EmotionView
 --- !u!114 &2102582519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3997,7 +3984,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.34}
   m_Radius: 1.2157143
 --- !u!212 &2102582526
 SpriteRenderer:
@@ -4145,7 +4132,7 @@ Animator:
   m_GameObject: {fileID: 2102582511}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa0f6ed6203276f4d9ace51cc352fd09, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4171,14 +4158,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
   animator: {fileID: 2102582532}
   spriteRenderer: {fileID: 2102582526}
-  baseIdle: {fileID: 0}
-  baseWalk: {fileID: 0}
-  baseDrag: {fileID: 0}
-  normalSet: {fileID: 0}
-  happySet: {fileID: 0}
-  sadSet: {fileID: 0}
-  angrySet: {fileID: 0}
-  suprisedSet: {fileID: 0}
+  baseIdle: {fileID: 7400000, guid: 35244d0ec7cfe1f42b6ee67dc50c8a5b, type: 2}
+  baseWalk: {fileID: 7400000, guid: 01a644d5582a0bf4f86f4dd8089416b3, type: 2}
+  baseDrag: {fileID: 7400000, guid: 35244d0ec7cfe1f42b6ee67dc50c8a5b, type: 2}
+  normalSet: {fileID: 11400000, guid: fe7b891abe2dce447868931099a39ff0, type: 2}
+  happySet: {fileID: 11400000, guid: 2ffa9b24387add64a9ec7ffdebea3b60, type: 2}
+  sadSet: {fileID: 11400000, guid: 1f693e78a34f8ca459acac913128014b, type: 2}
+  angrySet: {fileID: 11400000, guid: c9b881fc4e2869245b49c6cdd1e4710d, type: 2}
+  suprisedSet: {fileID: 11400000, guid: 5899cc7c49dfc844a96fda56b370f966, type: 2}
 --- !u!1 &2136558938
 GameObject:
   m_ObjectHideFlags: 0
