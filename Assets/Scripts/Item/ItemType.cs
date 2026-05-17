@@ -2,13 +2,13 @@ public enum ItemType
 {
     None,
 
-    Apple,
-    Bread,
-    Fish,
+    A_FavoriteFood,
+    B_FavoriteFood,
+
+    A_FavoriteToy,
+    B_FavoriteToy,
 
     Soap,
     Towel,
-
-    Bed,
-    Toy
+    Bed
 }

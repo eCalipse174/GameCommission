@@ -44,14 +44,11 @@ public class DragItem : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log($"{name} OnMouseDown called / returning: {returning} / dragging: {dragging}");
         if (returning)
             return;
-
         dragging = true;
-
-        offset =
-            transform.position -
-            GetMouseWorldPosition();
+        offset = transform.position - GetMouseWorldPosition();
     }
 
     private void OnMouseUp()
@@ -105,8 +102,9 @@ public class DragItem : MonoBehaviour
 
     public void ReturnToStartPosition()
     {
-        StartCoroutine(
-            SmoothReturnRoutine());
+        Debug.Log($"{name} ReturnToStartPosition called / returning: {returning}");
+        if (returning) return;
+        StartCoroutine(SmoothReturnRoutine());
     }
 
     private IEnumerator SmoothReturnRoutine()

@@ -29,8 +29,9 @@ public class CharacterData : ScriptableObject
     [Header("Needs")]
     public NeedData[] needs;
 
-    [Header("Food")]
+    [Header("Favorite")]
     public ItemType favoriteFood;
+    public ItemType favoriteToy;
 
     [Header("Need Requirements")]
     public NeedRequirement[] needRequirements;

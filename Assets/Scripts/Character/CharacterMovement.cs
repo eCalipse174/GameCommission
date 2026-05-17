@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement
+    : MonoBehaviour
 {
     private CharacterController controller;
 
@@ -9,28 +9,38 @@ public class CharacterMovement : MonoBehaviour
 
     private Vector2 targetPosition;
 
+    private Vector2 moveDirection;
+
     private bool isMoving;
+
+    public Vector2 MoveDirection =>
+        moveDirection;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        controller =
+            GetComponent<CharacterController>();
     }
 
-    public void Initialize(float speed)
+    public void Initialize(
+        float speed)
     {
         moveSpeed = speed;
     }
 
-    public void SetTarget(Vector2 target)
+    public void SetTarget(
+        Vector2 target)
     {
         targetPosition =
-    MovementArea.Instance
-        .ClampPosition(target);
+            MovementArea.Instance
+                .ClampPosition(
+                    target);
 
         isMoving = true;
     }
 
-    public void SetMoveSpeed(float speed)
+    public void SetMoveSpeed(
+        float speed)
     {
         moveSpeed = speed;
     }
@@ -38,11 +48,19 @@ public class CharacterMovement : MonoBehaviour
     public void Stop()
     {
         isMoving = false;
+
+        moveDirection =
+            Vector2.zero;
     }
 
     public bool IsMoving()
     {
         return isMoving;
+    }
+
+    public Vector2 GetMoveDirection()
+    {
+        return moveDirection;
     }
 
     public bool ReachedTarget()
@@ -57,15 +75,27 @@ public class CharacterMovement : MonoBehaviour
         if (controller.IsLocked)
             return;
 
+
+
         if (!isMoving)
             return;
 
+        Vector2 currentPosition =
+            transform.position;
+
+        moveDirection =
+            (
+                targetPosition -
+                currentPosition
+            ).normalized;
+
         Vector2 nextPosition =
-    Vector2.MoveTowards(
-        transform.position,
-        targetPosition,
-        moveSpeed * Time.deltaTime
-    );
+            Vector2.MoveTowards(
+                currentPosition,
+                targetPosition,
+                moveSpeed *
+                Time.deltaTime
+            );
 
         nextPosition =
             MovementArea.Instance
@@ -78,6 +108,9 @@ public class CharacterMovement : MonoBehaviour
         if (ReachedTarget())
         {
             isMoving = false;
+
+            moveDirection =
+                Vector2.zero;
         }
     }
 }

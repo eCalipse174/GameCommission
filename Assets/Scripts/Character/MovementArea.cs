@@ -7,8 +7,11 @@ public class MovementArea
         Instance;
 
     [SerializeField]
-    private BoxCollider2D
+    private PolygonCollider2D
         areaCollider;
+
+    [SerializeField]
+    private int randomPointTryCount = 30;
 
     private Bounds bounds;
 
@@ -22,41 +25,52 @@ public class MovementArea
 
     public Vector2 GetRandomPoint()
     {
-        float x =
-            Random.Range(
-                bounds.min.x,
-                bounds.max.x);
+        for (int i = 0;
+             i < randomPointTryCount;
+             i++)
+        {
+            float x =
+                Random.Range(
+                    bounds.min.x,
+                    bounds.max.x);
 
-        float y =
-            Random.Range(
-                bounds.min.y,
-                bounds.max.y);
+            float y =
+                Random.Range(
+                    bounds.min.y,
+                    bounds.max.y);
 
-        return new Vector2(x, y);
+            Vector2 point =
+                new Vector2(x, y);
+
+            if (IsInside(point))
+            {
+                return point;
+            }
+        }
+
+        return areaCollider.bounds.center;
     }
 
     public Vector2 ClampPosition(
         Vector2 position)
     {
-        float x =
-            Mathf.Clamp(
-                position.x,
-                bounds.min.x,
-                bounds.max.x);
+        if (IsInside(position))
+        {
+            return position;
+        }
 
-        float y =
-            Mathf.Clamp(
-                position.y,
-                bounds.min.y,
-                bounds.max.y);
+        Vector2 closest =
+            areaCollider.ClosestPoint(
+                position);
 
-        return new Vector2(x, y);
+        return closest;
     }
 
     public bool IsInside(
         Vector2 position)
     {
-        return bounds.Contains(position);
+        return areaCollider
+            .OverlapPoint(position);
     }
 
     private void OnDrawGizmos()
@@ -64,10 +78,29 @@ public class MovementArea
         if (areaCollider == null)
             return;
 
-        Gizmos.color = Color.green;
+        Gizmos.color =
+            Color.green;
 
-        Gizmos.DrawWireCube(
-            areaCollider.bounds.center,
-            areaCollider.bounds.size);
+        Vector2[] points =
+            areaCollider.points;
+
+        for (int i = 0;
+             i < points.Length;
+             i++)
+        {
+            Vector2 current =
+                transform.TransformPoint(
+                    points[i]);
+
+            Vector2 next =
+                transform.TransformPoint(
+                    points[
+                        (i + 1) %
+                        points.Length]);
+
+            Gizmos.DrawLine(
+                current,
+                next);
+        }
     }
 }

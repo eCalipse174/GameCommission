@@ -67,10 +67,10 @@ public class CharacterNeedResolver
     }
 
     private bool HandleToy(
-        ItemObject item)
+    ItemObject item)
     {
-        if (item.ItemType ==
-            ItemType.Toy)
+        if (IsFavoriteToy(
+            item.ItemType))
         {
             Resolve(item);
 
@@ -122,6 +122,14 @@ public class CharacterNeedResolver
         return itemType ==
                controller.Data
                    .favoriteFood;
+    }
+
+    private bool IsFavoriteToy(
+    ItemType itemType)
+    {
+        return itemType ==
+               controller.Data
+                   .favoriteToy;
     }
 
     private void Resolve(

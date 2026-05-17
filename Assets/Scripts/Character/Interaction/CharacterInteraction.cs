@@ -6,6 +6,8 @@ public class CharacterInteraction : MonoBehaviour
 
     private Camera mainCamera;
 
+    private CharacterAnimator characterAnimator;
+
     private CharacterInputState currentState;
 
     private bool pointerDown;
@@ -26,6 +28,7 @@ public class CharacterInteraction : MonoBehaviour
     {
         controller =
             GetComponent<CharacterController>();
+        characterAnimator = GetComponent<CharacterAnimator>();
 
         mainCamera = Camera.main;
     }
@@ -61,6 +64,8 @@ public class CharacterInteraction : MonoBehaviour
 
         currentState =
             CharacterInputState.None;
+
+        characterAnimator.SetDragging(dragging);
 
         controller.ResumeAI();
     }
@@ -111,6 +116,7 @@ public class CharacterInteraction : MonoBehaviour
     private void StartDrag()
     {
         dragging = true;
+        characterAnimator.SetDragging(dragging);
 
         currentState =
             CharacterInputState.Dragging;

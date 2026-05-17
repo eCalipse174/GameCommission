@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Obsolete]
 public class EmotionView : MonoBehaviour
 {
     private CharacterController controller;

@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class EmotionSystem : MonoBehaviour
 {
-    private CharacterController controller;
-
-    private EmotionView emotionView;
+    private CharacterAnimator animator;
 
     private EmotionType currentEmotion =
         EmotionType.Normal;
@@ -14,11 +12,8 @@ public class EmotionSystem : MonoBehaviour
 
     private void Awake()
     {
-        controller =
-            GetComponent<CharacterController>();
-
-        emotionView =
-            GetComponent<EmotionView>();
+        animator = 
+            GetComponent<CharacterAnimator>();
     }
 
     private void Start()
@@ -30,9 +25,7 @@ public class EmotionSystem : MonoBehaviour
         EmotionType emotion)
     {
         currentEmotion = emotion;
-
-        emotionView.UpdateEmotion(
-            currentEmotion);
+        animator.SetEmotion(emotion);
 
         Debug.Log(
             $"{name} Emotion: {emotion}");
