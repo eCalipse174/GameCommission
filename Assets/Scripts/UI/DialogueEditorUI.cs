@@ -2,52 +2,50 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
-/// ÀÎ°ÔÀÓ ´ë»ç ÆíÁý UI
-/// Canvas ¾Æ·¡ Àû´çÇÑ GameObject¿¡ ºÙ¿©¼­ »ç¿ëÇÕ´Ï´Ù.
+/// ÀÎ°ÔÀÓ ´ë»ç ÆíÁý UI (µå·Ó´Ù¿î ¹æ½Ä)
+/// ÅÇÀ¸·Î Stage ¼±ÅÃ, µå·Ó´Ù¿îÀ¸·Î DialogueType ¼±ÅÃ
+/// ¼±ÅÃÇÑ Á¶ÇÕÀÇ ´ë»ç¸¸ ¸ñ·Ï¿¡ Ç¥½Ã
 /// </summary>
 public class DialogueEditorUI : MonoBehaviour
 {
-    [Header("¿¬°á ÇÊ¼ö")]
-    [SerializeField] private CharacterDialogueRuntime dialogueRuntime;
+    public static DialogueEditorUI Instance;
 
     [Header("ÅÇ ¹öÆ°")]
     [SerializeField] private Button tabBabyButton;
     [SerializeField] private Button tabAdultButton;
+    [SerializeField] private Text tabBabyText;
+    [SerializeField] private Text tabAdultText;
 
-    [Header("ÅÇ ¹öÆ° ÅØ½ºÆ® (¼±ÅÃ ½Ã »ö»ó º¯°æ¿ë)")]
-    [SerializeField] private TextMeshProUGUI tabBabyText;
-    [SerializeField] private TextMeshProUGUI tabAdultText;
+    [Header("Á¾·ù µå·Ó´Ù¿î")]
+    [SerializeField] private Dropdown typeDropdown;
 
-    [Header("´ë»ç ¼½¼ÇµéÀÌ µé¾î°¥ ½ºÅ©·Ñºä Content")]
-    [SerializeField] private Transform babyContentParent;
-    [SerializeField] private Transform adultContentParent;
+    [Header("´ë»ç ¸ñ·ÏÀÌ µé¾î°¥ ScrollViewÀÇ Content")]
+    [SerializeField] private Transform entryListParent;
 
     [Header("ÇÁ¸®ÆÕ")]
-    [SerializeField] private GameObject sectionPrefab;   // ¼½¼Ç Á¦¸ñ + ´ë»ç ¸ñ·Ï ¹­À½
-    [SerializeField] private GameObject entryRowPrefab;  // ´ë»ç ÇÑ ÁÙ (ÀÔ·Â¶õ + »èÁ¦ ¹öÆ°)
+    [SerializeField] private GameObject entryRowPrefab; // InputField + DeleteButton
 
     [Header("ÇÏ´Ü ¹öÆ°")]
+    [SerializeField] private Button addButton;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button closeButton;
 
     [Header("ÅÇ »ö»ó")]
-    [SerializeField] private Color activeTabColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color activeTabColor = Color.white;
     [SerializeField] private Color inactiveTabColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
     // ¦¡¦¡ ³»ºÎ µ¥ÀÌÅÍ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private CharacterDialogueRuntime dialogueRuntime;
+
     // stage ¡æ type ¡æ ´ë»ç ¸ñ·Ï
     private Dictionary<GrowthStage, Dictionary<DialogueType, List<string>>> editorData;
 
-    // ÇöÀç ¼±ÅÃµÈ ÅÇ
     private GrowthStage currentStage = GrowthStage.Baby;
+    private DialogueType currentType = DialogueType.Idle;
 
-    // ¼½¼Ç ÆÐ³Î Ä³½Ì: stage ¡æ type ¡æ ´ë»ç ÇàµéÀÇ ºÎ¸ð Transform
-    private Dictionary<GrowthStage, Dictionary<DialogueType, Transform>> sectionEntryParents;
-
-    // ¦¡¦¡ ·¹ÀÌºí ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // ¦¡¦¡ ·¹ÀÌºí ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
     private static readonly Dictionary<DialogueType, string> TypeLabel = new Dictionary<DialogueType, string>
     {
         { DialogueType.Idle,             "Æò¼Ò ´ë»ç" },
@@ -59,28 +57,54 @@ public class DialogueEditorUI : MonoBehaviour
         { DialogueType.InteractionReply, "»óÈ£ÀÛ¿ë ´äº¯" },
     };
 
-    private static readonly Dictionary<GrowthStage, string> StageLabel = new Dictionary<GrowthStage, string>
+    private static readonly DialogueType[] TypeOrder = new DialogueType[]
     {
-        { GrowthStage.Baby,  "¾Æ±â" },
-        { GrowthStage.Adult, "¾î¸¥" },
+        DialogueType.Idle,
+        DialogueType.Hunger,
+        DialogueType.Sleepy,
+        DialogueType.Happy,
+        DialogueType.Angry,
+        DialogueType.InteractionStart,
+        DialogueType.InteractionReply,
     };
 
     // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
 
     private void Awake()
     {
-        // ¹öÆ° ÀÌº¥Æ®
+        Instance = this;
+
         tabBabyButton.onClick.AddListener(() => SwitchTab(GrowthStage.Baby));
         tabAdultButton.onClick.AddListener(() => SwitchTab(GrowthStage.Adult));
+        addButton.onClick.AddListener(OnAddEntry);
         saveButton.onClick.AddListener(OnSave);
         closeButton.onClick.AddListener(OnClose);
+
+        // µå·Ó´Ù¿î ¿É¼Ç ÃÊ±âÈ­
+        typeDropdown.ClearOptions();
+        List<string> options = new List<string>();
+        foreach (DialogueType t in TypeOrder)
+            options.Add(TypeLabel[t]);
+        typeDropdown.AddOptions(options);
+        typeDropdown.onValueChanged.AddListener(OnDropdownChanged);
+
+        gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    /// <summary>CharacterDetailUI¿¡¼­ È£Ãâ ? Ä³¸¯ÅÍ runtime ÁÖÀÔ ÈÄ ¿­±â</summary>
+    public void Open(CharacterDialogueRuntime runtime)
     {
+        dialogueRuntime = runtime;
         LoadFromRuntime();
-        BuildAllSections();
-        SwitchTab(GrowthStage.Baby);
+
+        currentStage = GrowthStage.Baby;
+        currentType = TypeOrder[0];
+        typeDropdown.SetValueWithoutNotify(0);
+
+        RefreshTabUI();
+        RefreshEntryList();
+
+        gameObject.SetActive(true);
     }
 
     // ¦¡¦¡ 1. Runtime ¡æ editorData ·Îµå ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
@@ -88,186 +112,141 @@ public class DialogueEditorUI : MonoBehaviour
     {
         editorData = new Dictionary<GrowthStage, Dictionary<DialogueType, List<string>>>();
 
-        // ºó ±¸Á¶ ¸ÕÀú ÃÊ±âÈ­
         foreach (GrowthStage stage in System.Enum.GetValues(typeof(GrowthStage)))
         {
             editorData[stage] = new Dictionary<DialogueType, List<string>>();
-            foreach (DialogueType type in System.Enum.GetValues(typeof(DialogueType)))
+            foreach (DialogueType type in TypeOrder)
                 editorData[stage][type] = new List<string>();
         }
 
-        // ±âÁ¸ ½ºÅ©¸³Æ® ÆÄ½Ì °á°ú¸¦ editorData¿¡ Ã¤¿ì±â
         string script = dialogueRuntime.GetScript();
-        if (!string.IsNullOrEmpty(script))
+        if (string.IsNullOrEmpty(script)) return;
+
+        var parsed = DialogueParser.Parse(script);
+        foreach (var kv in parsed)
         {
-            var parsed = DialogueParser.Parse(script);
-            foreach (var kv in parsed)
+            DialogueType type = kv.Key;
+            foreach (DialogueEntry entry in kv.Value)
             {
-                DialogueType type = kv.Key;
-                foreach (DialogueEntry entry in kv.Value)
+                if (editorData.ContainsKey(entry.stage) &&
+                    editorData[entry.stage].ContainsKey(type))
                 {
-                    if (editorData.ContainsKey(entry.stage) &&
-                        editorData[entry.stage].ContainsKey(type))
-                    {
-                        editorData[entry.stage][type].Add(entry.text);
-                    }
+                    editorData[entry.stage][type].Add(entry.text);
                 }
             }
         }
     }
 
-    // ¦¡¦¡ 2. UI ¼½¼Ç ÀüÃ¼ »ý¼º ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    private void BuildAllSections()
-    {
-        // ±âÁ¸ UI Á¤¸®
-        ClearChildren(babyContentParent);
-        ClearChildren(adultContentParent);
-
-        sectionEntryParents = new Dictionary<GrowthStage, Dictionary<DialogueType, Transform>>();
-
-        foreach (GrowthStage stage in System.Enum.GetValues(typeof(GrowthStage)))
-        {
-            sectionEntryParents[stage] = new Dictionary<DialogueType, Transform>();
-            Transform contentParent = (stage == GrowthStage.Baby) ? babyContentParent : adultContentParent;
-
-            foreach (DialogueType type in System.Enum.GetValues(typeof(DialogueType)))
-            {
-                Transform entryParent = BuildSection(contentParent, stage, type);
-                sectionEntryParents[stage][type] = entryParent;
-
-                // ±âÁ¸ ´ë»ç Çà »ý¼º
-                foreach (string text in editorData[stage][type])
-                    AddEntryRow(entryParent, stage, type, text);
-            }
-        }
-    }
-
-    /// <summary>¼½¼Ç ÇÏ³ª(Á¦¸ñ + ´ë»ç¸ñ·Ï + Ãß°¡¹öÆ°)¸¦ »ý¼ºÇÏ°í, ´ë»ç ÇàµéÀÇ ºÎ¸ð TransformÀ» ¹ÝÈ¯</summary>
-    private Transform BuildSection(Transform parent, GrowthStage stage, DialogueType type)
-    {
-        GameObject sectionGO = Instantiate(sectionPrefab, parent);
-
-        // ¼½¼Ç Á¦¸ñ ÅØ½ºÆ®
-        // sectionPrefab ¾È¿¡ "TitleText" ¶ó´Â ÀÌ¸§ÀÇ TextMeshProUGUI°¡ ÀÖ´Ù°í °¡Á¤
-        TextMeshProUGUI titleText = sectionGO.transform.Find("TitleText")?.GetComponent<TextMeshProUGUI>();
-        if (titleText != null)
-            titleText.text = TypeLabel[type];
-
-        // ´ë»ç ÇàµéÀÌ ½×ÀÏ ÄÁÅ×ÀÌ³Ê
-        // sectionPrefab ¾È¿¡ "EntryContainer" ¶ó´Â ÀÌ¸§ÀÇ TransformÀÌ ÀÖ´Ù°í °¡Á¤
-        Transform entryContainer = sectionGO.transform.Find("EntryContainer");
-
-        // "´ë»ç Ãß°¡" ¹öÆ°
-        // sectionPrefab ¾È¿¡ "AddButton" ÀÌ¶ó´Â ÀÌ¸§ÀÇ ButtonÀÌ ÀÖ´Ù°í °¡Á¤
-        Button addButton = sectionGO.transform.Find("AddButton")?.GetComponent<Button>();
-        if (addButton != null)
-        {
-            // Å¬·ÎÀú¿ë º¯¼ö Ä¸Ã³
-            GrowthStage capturedStage = stage;
-            DialogueType capturedType = type;
-            Transform capturedParent = entryContainer;
-
-            addButton.onClick.AddListener(() =>
-            {
-                editorData[capturedStage][capturedType].Add(string.Empty);
-                AddEntryRow(capturedParent, capturedStage, capturedType, string.Empty);
-            });
-        }
-
-        return entryContainer;
-    }
-
-    /// <summary>´ë»ç ÇÑ ÁÙ(ÀÔ·Â¶õ + »èÁ¦ ¹öÆ°)À» »ý¼º</summary>
-    private void AddEntryRow(Transform parent, GrowthStage stage, DialogueType type, string initialText)
-    {
-        GameObject rowGO = Instantiate(entryRowPrefab, parent);
-
-        // entryRowPrefab ¾È¿¡ "InputField" ¶ó´Â TMP_InputField°¡ ÀÖ´Ù°í °¡Á¤
-        TMP_InputField inputField = rowGO.transform.Find("InputField")?.GetComponent<TMP_InputField>();
-        if (inputField != null)
-        {
-            inputField.text = initialText;
-
-            // ÀÔ·Â°ªÀÌ ¹Ù²ð ¶§¸¶´Ù editorData µ¿±âÈ­
-            // ÇàÀÇ ÀÎµ¦½º¸¦ È°¿ëÇÏ±â À§ÇØ sibling index »ç¿ë
-            inputField.onValueChanged.AddListener((val) =>
-            {
-                int idx = rowGO.transform.GetSiblingIndex();
-                if (idx < editorData[stage][type].Count)
-                    editorData[stage][type][idx] = val;
-            });
-        }
-
-        // entryRowPrefab ¾È¿¡ "DeleteButton" ÀÌ¶ó´Â ButtonÀÌ ÀÖ´Ù°í °¡Á¤
-        Button deleteButton = rowGO.transform.Find("DeleteButton")?.GetComponent<Button>();
-        if (deleteButton != null)
-        {
-            GrowthStage capturedStage = stage;
-            DialogueType capturedType = type;
-            GameObject capturedRowGO = rowGO;
-
-            deleteButton.onClick.AddListener(() =>
-            {
-                int idx = capturedRowGO.transform.GetSiblingIndex();
-                if (idx < editorData[capturedStage][capturedType].Count)
-                    editorData[capturedStage][capturedType].RemoveAt(idx);
-                Destroy(capturedRowGO);
-            });
-        }
-    }
-
-    // ¦¡¦¡ 3. ÅÇ ÀüÈ¯ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // ¦¡¦¡ 2. ÅÇ ÀüÈ¯ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
     private void SwitchTab(GrowthStage stage)
     {
+        // ÇöÀç ¸ñ·Ï ÀúÀå ÈÄ ÅÇ ÀüÈ¯
+        SaveCurrentList();
         currentStage = stage;
-
-        babyContentParent.gameObject.SetActive(stage == GrowthStage.Baby);
-        adultContentParent.gameObject.SetActive(stage == GrowthStage.Adult);
-
-        if (tabBabyText != null) tabBabyText.color = (stage == GrowthStage.Baby) ? activeTabColor : inactiveTabColor;
-        if (tabAdultText != null) tabAdultText.color = (stage == GrowthStage.Adult) ? activeTabColor : inactiveTabColor;
+        RefreshTabUI();
+        RefreshEntryList();
     }
 
-    // ¦¡¦¡ 4. ÀúÀå ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private void RefreshTabUI()
+    {
+        if (tabBabyText != null) tabBabyText.color = currentStage == GrowthStage.Baby ? activeTabColor : inactiveTabColor;
+        if (tabAdultText != null) tabAdultText.color = currentStage == GrowthStage.Adult ? activeTabColor : inactiveTabColor;
+    }
+
+    // ¦¡¦¡ 3. µå·Ó´Ù¿î º¯°æ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private void OnDropdownChanged(int index)
+    {
+        SaveCurrentList();
+        currentType = TypeOrder[index];
+        RefreshEntryList();
+    }
+
+    // ¦¡¦¡ 4. ´ë»ç ¸ñ·Ï °»½Å ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private void RefreshEntryList()
+    {
+        // ±âÁ¸ Çà ÀüºÎ Á¦°Å
+        for (int i = entryListParent.childCount - 1; i >= 0; i--)
+            Destroy(entryListParent.GetChild(i).gameObject);
+
+        // ÇöÀç stage+typeÀÇ ´ë»ç ¸ñ·Ï Ç¥½Ã
+        List<string> lines = editorData[currentStage][currentType];
+        for (int i = 0; i < lines.Count; i++)
+            CreateEntryRow(lines[i]);
+    }
+
+    private void CreateEntryRow(string initialText)
+    {
+        GameObject rowGO = Instantiate(entryRowPrefab, entryListParent);
+
+        InputField inputField = rowGO.transform.GetChild(0).GetComponent<InputField>();
+        Button deleteBtn = rowGO.transform.GetChild(1).GetComponent<Button>();
+
+        if (inputField != null)
+            inputField.text = initialText;
+
+        if (deleteBtn != null)
+        {
+            GameObject capturedRow = rowGO;
+            deleteBtn.onClick.AddListener(() =>
+            {
+                Destroy(capturedRow);
+            });
+        }
+    }
+
+    // ¦¡¦¡ 5. ÇöÀç ¸ñ·Ï ¡æ editorData ÀúÀå ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private void SaveCurrentList()
+    {
+        List<string> lines = new List<string>();
+        foreach (Transform child in entryListParent)
+        {
+            InputField inputField = child.GetChild(0).GetComponent<InputField>();
+            if (inputField != null)
+            {
+                string trimmed = inputField.text.Trim();
+                if (!string.IsNullOrEmpty(trimmed))
+                    lines.Add(trimmed);
+            }
+        }
+        editorData[currentStage][currentType] = lines;
+    }
+
+    // ¦¡¦¡ 6. ´ë»ç Ãß°¡ ¹öÆ° ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    private void OnAddEntry()
+    {
+        CreateEntryRow(string.Empty);
+    }
+
+    // ¦¡¦¡ 7. ÀúÀå ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
     private void OnSave()
     {
+        // ÇöÀç º¸°í ÀÖ´Â ¸ñ·Ï ¸ÕÀú ÀúÀå
+        SaveCurrentList();
+
         StringBuilder sb = new StringBuilder();
 
         foreach (GrowthStage stage in System.Enum.GetValues(typeof(GrowthStage)))
         {
-            foreach (DialogueType type in System.Enum.GetValues(typeof(DialogueType)))
+            foreach (DialogueType type in TypeOrder)
             {
                 List<string> lines = editorData[stage][type];
                 if (lines.Count == 0) continue;
 
-                // Çì´õ
                 sb.AppendLine($"[{type}:{stage}]");
-
                 foreach (string line in lines)
-                {
-                    string trimmed = line.Trim();
-                    if (!string.IsNullOrEmpty(trimmed))
-                        sb.AppendLine(trimmed);
-                }
-
-                sb.AppendLine(); // ¼½¼Ç »çÀÌ ºó ÁÙ
+                    sb.AppendLine(line);
+                sb.AppendLine();
             }
         }
 
         dialogueRuntime.SetScript(sb.ToString());
-        Debug.Log("[DialogueEditorUI] ´ë»ç ÀúÀå ¿Ï·á!");
+        Debug.Log($"[DialogueEditorUI] {dialogueRuntime.gameObject.name} ´ë»ç ÀúÀå ¿Ï·á!");
     }
 
-    // ¦¡¦¡ 5. ´Ý±â ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // ¦¡¦¡ 8. ´Ý±â ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
     private void OnClose()
     {
         gameObject.SetActive(false);
-    }
-
-    // ¦¡¦¡ À¯Æ¿ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    private static void ClearChildren(Transform parent)
-    {
-        for (int i = parent.childCount - 1; i >= 0; i--)
-            Destroy(parent.GetChild(i).gameObject);
+        dialogueRuntime = null;
     }
 }

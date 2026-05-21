@@ -19,6 +19,10 @@ public class CharacterGrowth
     [SerializeField]
     private float adultMoveSpeed = 2.5f;
 
+    [Header("Baby Resources")]
+    [SerializeField] private Sprite babySprite;
+    [SerializeField] private float babyMoveSpeed = 1.5f;
+
     [Header("Adult Resources")]
 
     [SerializeField]
@@ -114,9 +118,19 @@ public class CharacterGrowth
         if (adultSprite != null)
             spriteRenderer.sprite = adultSprite;
 
-        if (adultAnimator != null)
-            characterAnimator.ApplyController(adultAnimator); // 이걸로 교체
+        characterAnimator.SetGrowthStage(GrowthStage.Adult); // 이걸로 교체
 
         movement.SetMoveSpeed(adultMoveSpeed);
+    }
+
+    public void ResetGrowth()
+    {
+        currentGrowthPoint = 0;
+        currentStage = GrowthStage.Baby;
+        characterAnimator.SetGrowthStage(GrowthStage.Baby);
+        movement.SetMoveSpeed(babyMoveSpeed);
+
+        if (spriteRenderer != null)
+            spriteRenderer.sprite = babySprite;
     }
 }

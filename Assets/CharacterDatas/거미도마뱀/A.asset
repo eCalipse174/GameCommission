@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
   characterName: "\uD558\uB098"
   gender: 1
-  description: "\uBD80\uC720\uD588\uC73C\uB098 \uBAB0\uB77D\uD574\uBC84\uB9B0 \uBC31\uC791\uAC00\uC758
+  description: "\uBD80\uC720\uD588\uC73C\uB098 \uBAB0\uB77D\uD574\uBC84\uB9B0 \n\uBC31\uC791\uAC00\uC758
     \uB3C4\uB828\uB2D8"
   moveSpeed: 1
   moveRadius: 5
