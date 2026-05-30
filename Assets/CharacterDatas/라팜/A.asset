@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c803965f7fa09024a9a103990c944529, type: 3}
+  m_Name: A
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: "\uC544\uB9C8\uC57C \uC5D8"
+  gender: 2
+  description: "\uC369\uC5B4\uAC00\uB294 \uBAB8\uC73C\uB85C \uC0AC\uB791\uD560 \uC218
+    \uC788\uC744\uAE4C?"
+  moveSpeed: 1
+  moveRadius: 5
+  minIdleTime: 1
+  maxIdleTime: 3
+  idleSprite: {fileID: -9046159256140282492, guid: 18522d3e015866b4987f3d1ecb7a9823, type: 3}
+  needs:
+  - type: 1
+    minInterval: 10
+    maxInterval: 30
+  - type: 3
+    minInterval: 10
+    maxInterval: 30
+  favoriteFood: 1
+  favoriteToy: 3
+  needRequirements:
+  - needType: 1
+    resolveType: 1
+  - needType: 3
+    resolveType: 4
+  normalSprite: {fileID: -9046159256140282492, guid: 18522d3e015866b4987f3d1ecb7a9823, type: 3}
+  happySprite: {fileID: 2844132609108488293, guid: 3ba6f513dd91afb458455f4c167349dd, type: 3}
+  sadSprite: {fileID: 1320861037662031588, guid: 0450544c1a376bd41948386e9e2c255a, type: 3}
+  angrySprite: {fileID: 1320861037662031588, guid: 0450544c1a376bd41948386e9e2c255a, type: 3}
+  sleepySprite: {fileID: 1320861037662031588, guid: 0450544c1a376bd41948386e9e2c255a, type: 3}
+  surprisedSprite: {fileID: 961383841205855441, guid: 7932191799a49b64c8e82ffdece4b2ad, type: 3}
+  dialogues: []
