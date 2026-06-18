@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
@@ -14,6 +15,11 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private AnimationClip babyWalk;
     [SerializeField] private AnimationClip babyDrag;
 
+    [Header("Young Clips")]
+    [SerializeField] private AnimationClip youngIdle;
+    [SerializeField] private AnimationClip youngWalk;
+    [SerializeField] private AnimationClip youngDrag;
+
     [Header("Adult Emotion Sets")]
     [SerializeField] private EmotionAnimationSet normalSet;
     [SerializeField] private EmotionAnimationSet happySet;
@@ -24,7 +30,7 @@ public class CharacterAnimator : MonoBehaviour
     private AnimatorOverrideController overrideController;
     private CharacterMovement movement;
     private bool facingLeft = true;
-    private bool isAdult = false;
+    private GrowthStage currentStage = GrowthStage.Baby;
     private EmotionType currentEmotion = EmotionType.Normal;
 
     private void Awake()
@@ -50,10 +56,8 @@ public class CharacterAnimator : MonoBehaviour
     private void UpdateDirection()
     {
         Vector2 direction = movement.GetMoveDirection();
-        if (direction.x > 0.01f)
-            FaceRight();
-        else if (direction.x < -0.01f)
-            FaceLeft();
+        if (direction.x > 0.01f) FaceRight();
+        else if (direction.x < -0.01f) FaceLeft();
     }
 
     private void FaceLeft()
@@ -72,10 +76,8 @@ public class CharacterAnimator : MonoBehaviour
 
     public void FaceToward(Vector2 targetPosition)
     {
-        if (targetPosition.x > transform.position.x)
-            FaceRight();
-        else
-            FaceLeft();
+        if (targetPosition.x > transform.position.x) FaceRight();
+        else FaceLeft();
     }
 
     public void SetEmotion(EmotionType emotion)
@@ -87,31 +89,39 @@ public class CharacterAnimator : MonoBehaviour
     public void SetDragging(bool dragging)
     {
         animator.SetBool("IsDragging", dragging);
-        if (dragging)
-            ApplyEmotion(EmotionType.Surprised);
-        else
-            ApplyEmotion(currentEmotion);
+        if (dragging) ApplyEmotion(EmotionType.Surprised);
+        else ApplyEmotion(currentEmotion);
     }
 
     public void SetGrowthStage(GrowthStage stage)
     {
-        isAdult = stage == GrowthStage.Adult;
+        currentStage = stage;
         ApplyEmotion(currentEmotion);
     }
 
     private void ApplyEmotion(EmotionType emotion)
     {
-        if (!isAdult)
+        switch (currentStage)
         {
-            overrideController[baseIdle.name] = babyIdle;
-            overrideController[baseWalk.name] = babyWalk;
-            overrideController[baseDrag.name] = babyDrag;
-            return;
+            case GrowthStage.Baby:
+                overrideController[baseIdle.name] = babyIdle;
+                overrideController[baseWalk.name] = babyWalk;
+                overrideController[baseDrag.name] = babyDrag;
+                return;
+
+            case GrowthStage.Young:
+                overrideController[baseIdle.name] = youngIdle;
+                overrideController[baseWalk.name] = youngWalk;
+                overrideController[baseDrag.name] = youngDrag;
+                return;
+
+            case GrowthStage.Adult:
+                EmotionAnimationSet set = GetAnimationSet(emotion);
+                overrideController[baseIdle.name] = set.idle;
+                overrideController[baseWalk.name] = set.walk;
+                overrideController[baseDrag.name] = set.drag;
+                return;
         }
-        EmotionAnimationSet set = GetAnimationSet(emotion);
-        overrideController[baseIdle.name] = set.idle;
-        overrideController[baseWalk.name] = set.walk;
-        overrideController[baseDrag.name] = set.drag;
     }
 
     private EmotionAnimationSet GetAnimationSet(EmotionType emotion)

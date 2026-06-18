@@ -1,136 +1,160 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterGrowth
-    : MonoBehaviour
+public class CharacterGrowth : MonoBehaviour
 {
     [Header("Growth")]
-
     [SerializeField]
-    private GrowthStage currentStage =
-        GrowthStage.Baby;
-
+    private GrowthStage currentStage = GrowthStage.Baby;
     [SerializeField]
     private int currentGrowthPoint;
-
     [SerializeField]
-    private int maxGrowthPoint = 1;
-
+    private int maxGrowthPointToYoung = 1;
     [SerializeField]
-    private float adultMoveSpeed = 2.5f;
+    private int maxGrowthPointToAdult = 1;
 
     [Header("Baby Resources")]
     [SerializeField] private Sprite babySprite;
     [SerializeField] private float babyMoveSpeed = 1.5f;
 
+    [Header("Young Resources")]
+    [SerializeField] private Sprite youngSprite;
+    [SerializeField] private float youngMoveSpeed = 2.0f;
+
     [Header("Adult Resources")]
+    [SerializeField] private Sprite adultSprite;
+    [SerializeField] private float adultMoveSpeed = 2.5f;
 
-    [SerializeField]
-    private Sprite adultSprite;
-
-    [SerializeField]
-    private RuntimeAnimatorController
-        adultAnimator;
-
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
-
-    [SerializeField]
-    private Animator animator;
+    [Header("References")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
 
     private CharacterMovement movement;
+    private CharacterAnimator characterAnimator;
 
-    public GrowthStage CurrentStage =>
-        currentStage;
+    public GrowthStage CurrentStage => currentStage;
+    public bool IsAdult => currentStage == GrowthStage.Adult;
 
-    public bool IsAdult =>
-        currentStage ==
-        GrowthStage.Adult;
+    public int MaxGrowthPoint =>
+        currentStage == GrowthStage.Baby
+            ? maxGrowthPointToYoung
+            : maxGrowthPointToAdult;
 
     public bool IsGrowthComplete =>
-        currentGrowthPoint >=
-        maxGrowthPoint;
+        currentGrowthPoint >= MaxGrowthPoint;
 
-    public int CurrentGrowthPoint =>
-        currentGrowthPoint;
-
-    private CharacterAnimator characterAnimator;
+    public int CurrentGrowthPoint => currentGrowthPoint;
 
     private void Awake()
     {
         movement = GetComponent<CharacterMovement>();
-        characterAnimator = GetComponent<CharacterAnimator>(); // 추가
+        characterAnimator = GetComponent<CharacterAnimator>();
     }
 
-    public void LoadGrowthData(
-    int growthPoint,
-    GrowthStage stage)
+    public void LoadGrowthData(int growthPoint, GrowthStage stage)
     {
-        currentGrowthPoint =
-            growthPoint;
-
-        currentStage =
-            stage;
-
-        if (currentStage ==
-            GrowthStage.Adult)
-        {
-            ApplyAdultResources();
-        }
+        currentGrowthPoint = growthPoint;
+        currentStage = stage;
+        ApplyStageResources(currentStage);
     }
 
-    public void AddGrowthPoint(
-        int amount)
+    public void AddGrowthPoint(int amount)
     {
-        if (IsAdult)
-            return;
+        if (IsAdult) return;
 
         currentGrowthPoint += amount;
-
-        currentGrowthPoint =
-            Mathf.Clamp(
-                currentGrowthPoint,
-                0,
-                maxGrowthPoint);
+        currentGrowthPoint = Mathf.Clamp(
+            currentGrowthPoint, 0, MaxGrowthPoint);
 
         Debug.Log(
-            $"{name} Growth: " +
-            $"{currentGrowthPoint}/" +
-            $"{maxGrowthPoint}");
+            $"{name} Growth: {currentGrowthPoint}/{MaxGrowthPoint} ({currentStage})");
+    }
+
+    public void GrowToYoung()
+    {
+        if (currentStage != GrowthStage.Baby) return;
+
+        currentStage = GrowthStage.Young;
+        currentGrowthPoint = 0;
+        ApplyStageResources(GrowthStage.Young);
+        Debug.Log($"{name} became young");
     }
 
     public void GrowToAdult()
     {
-        if (IsAdult)
-            return;
+        if (currentStage != GrowthStage.Young) return;
 
-        currentStage =
-            GrowthStage.Adult;
-
-        ApplyAdultResources();
-
-        Debug.Log(
-            $"{name} became adult");
+        currentStage = GrowthStage.Adult;
+        ApplyStageResources(GrowthStage.Adult);
+        Debug.Log($"{name} became adult");
     }
 
-    private void ApplyAdultResources()
+    private void ApplyStageResources(GrowthStage stage)
     {
-        if (adultSprite != null)
-            spriteRenderer.sprite = adultSprite;
+        switch (stage)
+        {
+            case GrowthStage.Baby:
+                if (babySprite != null)
+                    spriteRenderer.sprite = babySprite;
+                movement.SetMoveSpeed(babyMoveSpeed);
+                break;
 
-        characterAnimator.SetGrowthStage(GrowthStage.Adult); // 이걸로 교체
+            case GrowthStage.Young:
+                if (youngSprite != null)
+                    spriteRenderer.sprite = youngSprite;
+                movement.SetMoveSpeed(youngMoveSpeed);
+                break;
 
-        movement.SetMoveSpeed(adultMoveSpeed);
+            case GrowthStage.Adult:
+                if (adultSprite != null)
+                    spriteRenderer.sprite = adultSprite;
+                movement.SetMoveSpeed(adultMoveSpeed);
+                break;
+        }
+
+        characterAnimator.SetGrowthStage(stage);
     }
 
     public void ResetGrowth()
     {
         currentGrowthPoint = 0;
         currentStage = GrowthStage.Baby;
-        characterAnimator.SetGrowthStage(GrowthStage.Baby);
-        movement.SetMoveSpeed(babyMoveSpeed);
-
-        if (spriteRenderer != null)
-            spriteRenderer.sprite = babySprite;
+        ApplyStageResources(GrowthStage.Baby);
     }
+
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+    [ContextMenu("Debug/Force Baby")]
+    private void DebugForceBaby()
+    {
+        currentStage = GrowthStage.Baby;
+        currentGrowthPoint = 0;
+        ApplyStageResources(GrowthStage.Baby);
+        Debug.Log($"{name} [DEBUG] forced to Baby");
+    }
+
+    [ContextMenu("Debug/Force Young")]
+    private void DebugForceYoung()
+    {
+        currentStage = GrowthStage.Young;
+        currentGrowthPoint = 0;
+        ApplyStageResources(GrowthStage.Young);
+        Debug.Log($"{name} [DEBUG] forced to Young");
+    }
+
+    [ContextMenu("Debug/Force Adult")]
+    private void DebugForceAdult()
+    {
+        currentStage = GrowthStage.Adult;
+        currentGrowthPoint = 0;
+        ApplyStageResources(GrowthStage.Adult);
+        Debug.Log($"{name} [DEBUG] forced to Adult");
+    }
+
+    [ContextMenu("Debug/Max Growth Point")]
+    private void DebugMaxGrowthPoint()
+    {
+        currentGrowthPoint = MaxGrowthPoint;
+        Debug.Log($"{name} [DEBUG] growth point maxed: {currentGrowthPoint}/{MaxGrowthPoint}");
+    }
+#endif
 }
