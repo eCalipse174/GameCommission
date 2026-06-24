@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c803965f7fa09024a9a103990c944529, type: 3}
+  m_Name: Character
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: 
+  gender: 2
+  description: 
+  moveSpeed: 1
+  moveRadius: 5
+  minIdleTime: 1
+  maxIdleTime: 3
+  idleSprite: {fileID: 7408791951343775973, guid: 53ea9abba217c0e4e98220453eb282fe, type: 3}
+  needs:
+  - type: 1
+    minInterval: 10
+    maxInterval: 30
+  - type: 3
+    minInterval: 10
+    maxInterval: 30
+  favoriteFood: 1
+  favoriteToy: 3
+  needRequirements:
+  - needType: 1
+    resolveType: 1
+  - needType: 3
+    resolveType: 4
+  normalSprite: {fileID: 0}
+  happySprite: {fileID: 0}
+  sadSprite: {fileID: 0}
+  angrySprite: {fileID: 0}
+  sleepySprite: {fileID: 0}
+  surprisedSprite: {fileID: 0}
+  dialogues: []

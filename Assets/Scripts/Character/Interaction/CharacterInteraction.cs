@@ -22,7 +22,7 @@ public class CharacterInteraction : MonoBehaviour
 
     private const float LONG_PRESS_TIME = 0.5f;
 
-    private const float DRAG_HOLD_TIME = 0.2f;
+    private const float DRAG_HOLD_TIME = 0f;
 
     private void Awake()
     {

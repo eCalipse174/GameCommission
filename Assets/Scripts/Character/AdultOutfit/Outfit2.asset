@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd4f162478b3ae48b0ed007d930fd07, type: 3}
+  m_Name: Outfit2
+  m_EditorClassIdentifier: Assembly-CSharp::AdultOutfit
+  outfitId: 2
+  displayName: qwer
+  thumbnail: {fileID: 0}
+  normalSet: {fileID: 11400000, guid: fe7b891abe2dce447868931099a39ff0, type: 2}
+  happySet: {fileID: 11400000, guid: 2ffa9b24387add64a9ec7ffdebea3b60, type: 2}
+  sadSet: {fileID: 11400000, guid: 1f693e78a34f8ca459acac913128014b, type: 2}
+  angrySet: {fileID: 11400000, guid: 2ffa9b24387add64a9ec7ffdebea3b60, type: 2}
+  surprisedSet: {fileID: 11400000, guid: 5899cc7c49dfc844a96fda56b370f966, type: 2}

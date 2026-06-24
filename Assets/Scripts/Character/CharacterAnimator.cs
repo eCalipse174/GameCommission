@@ -20,18 +20,15 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private AnimationClip youngWalk;
     [SerializeField] private AnimationClip youngDrag;
 
-    [Header("Adult Emotion Sets")]
-    [SerializeField] private EmotionAnimationSet normalSet;
-    [SerializeField] private EmotionAnimationSet happySet;
-    [SerializeField] private EmotionAnimationSet sadSet;
-    [SerializeField] private EmotionAnimationSet angrySet;
-    [SerializeField] private EmotionAnimationSet suprisedSet;
+    [Header("Default Adult Outfit")]
+    [SerializeField] private AdultOutfit defaultOutfit;
 
     private AnimatorOverrideController overrideController;
     private CharacterMovement movement;
     private bool facingLeft = true;
     private GrowthStage currentStage = GrowthStage.Baby;
     private EmotionType currentEmotion = EmotionType.Normal;
+    private AdultOutfit currentOutfit;
 
     private void Awake()
     {
@@ -39,6 +36,7 @@ public class CharacterAnimator : MonoBehaviour
         overrideController = new AnimatorOverrideController(
             animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = overrideController;
+        currentOutfit = defaultOutfit;
         ApplyEmotion(currentEmotion);
     }
 
@@ -99,6 +97,14 @@ public class CharacterAnimator : MonoBehaviour
         ApplyEmotion(currentEmotion);
     }
 
+    // OutfitManager∞° »£√‚
+    public void SetOutfit(AdultOutfit outfit)
+    {
+        currentOutfit = outfit;
+        if (currentStage == GrowthStage.Adult)
+            ApplyEmotion(currentEmotion);
+    }
+
     private void ApplyEmotion(EmotionType emotion)
     {
         switch (currentStage)
@@ -116,23 +122,12 @@ public class CharacterAnimator : MonoBehaviour
                 return;
 
             case GrowthStage.Adult:
-                EmotionAnimationSet set = GetAnimationSet(emotion);
+                if (currentOutfit == null) return;
+                EmotionAnimationSet set = currentOutfit.GetSet(emotion);
                 overrideController[baseIdle.name] = set.idle;
                 overrideController[baseWalk.name] = set.walk;
                 overrideController[baseDrag.name] = set.drag;
                 return;
         }
-    }
-
-    private EmotionAnimationSet GetAnimationSet(EmotionType emotion)
-    {
-        switch (emotion)
-        {
-            case EmotionType.Happy: return happySet;
-            case EmotionType.Sad: return sadSet;
-            case EmotionType.Angry: return angrySet;
-            case EmotionType.Surprised: return suprisedSet;
-        }
-        return normalSet;
     }
 }

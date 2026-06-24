@@ -79,6 +79,14 @@ public class SaveManager
             data.dialogueScript =
                 dialogue.GetScript();
 
+            OutfitManager outfitManager =
+                character.GetComponent<OutfitManager>();
+
+            data.outfitId =
+                outfitManager.CurrentOutfit != null
+                    ? outfitManager.CurrentOutfit.outfitId
+                    : string.Empty;
+
             saveData.characters
                 .Add(data);
         }
@@ -158,6 +166,14 @@ public class SaveManager
 
                 dialogue.SetScript(
                     save.dialogueScript);
+
+                OutfitManager outfitManager =
+                    character.GetComponent<OutfitManager>();
+
+                if (!string.IsNullOrEmpty(save.outfitId))
+                {
+                    outfitManager.TrySetOutfit(save.outfitId);
+                }
 
                 break;
             }
