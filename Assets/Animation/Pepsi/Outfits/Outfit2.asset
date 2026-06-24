@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AdultOutfit
   outfitId: 2
   displayName: 2
-  thumbnail: {fileID: 0}
+  thumbnail: {fileID: -5059995415237066608, guid: 2566c788095d50947aca575be319de12, type: 3}
   normalSet: {fileID: 11400000, guid: 3abb4a4d5cfdde348966b35c3d32d2fb, type: 2}
   happySet: {fileID: 11400000, guid: 4465c8b330f6d8345861a43fd308e926, type: 2}
   sadSet: {fileID: 11400000, guid: b41bc58d6ebd431419dde0aa0c091e20, type: 2}

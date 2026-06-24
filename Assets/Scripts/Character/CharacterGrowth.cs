@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -45,10 +46,19 @@ public class CharacterGrowth : MonoBehaviour
 
     public int CurrentGrowthPoint => currentGrowthPoint;
 
+    // 성장 단계가 바뀔 때마다 발생
+    public event Action<GrowthStage> OnStageChanged;
+
     private void Awake()
     {
         movement = GetComponent<CharacterMovement>();
         characterAnimator = GetComponent<CharacterAnimator>();
+    }
+
+    private void Start()
+    {
+        // 시작 시점 단계도 구독자에게 알려줌 (버튼 초기 상태 세팅용)
+        OnStageChanged?.Invoke(currentStage);
     }
 
     public void LoadGrowthData(int growthPoint, GrowthStage stage)
@@ -56,6 +66,7 @@ public class CharacterGrowth : MonoBehaviour
         currentGrowthPoint = growthPoint;
         currentStage = stage;
         ApplyStageResources(currentStage);
+        OnStageChanged?.Invoke(currentStage);
     }
 
     public void AddGrowthPoint(int amount)
@@ -77,6 +88,7 @@ public class CharacterGrowth : MonoBehaviour
         currentStage = GrowthStage.Young;
         currentGrowthPoint = 0;
         ApplyStageResources(GrowthStage.Young);
+        OnStageChanged?.Invoke(currentStage);
         Debug.Log($"{name} became young");
     }
 
@@ -86,6 +98,7 @@ public class CharacterGrowth : MonoBehaviour
 
         currentStage = GrowthStage.Adult;
         ApplyStageResources(GrowthStage.Adult);
+        OnStageChanged?.Invoke(currentStage);
         Debug.Log($"{name} became adult");
     }
 
@@ -120,6 +133,7 @@ public class CharacterGrowth : MonoBehaviour
         currentGrowthPoint = 0;
         currentStage = GrowthStage.Baby;
         ApplyStageResources(GrowthStage.Baby);
+        OnStageChanged?.Invoke(currentStage);
     }
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
@@ -129,6 +143,7 @@ public class CharacterGrowth : MonoBehaviour
         currentStage = GrowthStage.Baby;
         currentGrowthPoint = 0;
         ApplyStageResources(GrowthStage.Baby);
+        OnStageChanged?.Invoke(currentStage);
         Debug.Log($"{name} [DEBUG] forced to Baby");
     }
 
@@ -138,6 +153,7 @@ public class CharacterGrowth : MonoBehaviour
         currentStage = GrowthStage.Young;
         currentGrowthPoint = 0;
         ApplyStageResources(GrowthStage.Young);
+        OnStageChanged?.Invoke(currentStage);
         Debug.Log($"{name} [DEBUG] forced to Young");
     }
 
@@ -147,6 +163,7 @@ public class CharacterGrowth : MonoBehaviour
         currentStage = GrowthStage.Adult;
         currentGrowthPoint = 0;
         ApplyStageResources(GrowthStage.Adult);
+        OnStageChanged?.Invoke(currentStage);
         Debug.Log($"{name} [DEBUG] forced to Adult");
     }
 

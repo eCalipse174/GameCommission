@@ -12,6 +12,7 @@ public class MovementArea : MonoBehaviour
 
     [Header("Screen Mode")]
     [SerializeField] private Camera targetCamera;
+    [SerializeField] private float screenMargin = 0.5f;
 
     [SerializeField] private int randomPointTryCount = 30;
 
@@ -24,7 +25,7 @@ public class MovementArea : MonoBehaviour
         if (useScreenBoundary)
         {
             Camera cam = targetCamera != null ? targetCamera : Camera.main;
-            boundary = new ScreenMovementBoundary(cam);
+            boundary = new ScreenMovementBoundary(cam, screenMargin);
         }
         else
         {

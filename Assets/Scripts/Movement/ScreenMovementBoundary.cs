@@ -3,10 +3,13 @@ using UnityEngine;
 public class ScreenMovementBoundary : IMovementBoundary
 {
     private readonly Camera worldCamera;
+    private readonly float margin;
 
-    public ScreenMovementBoundary(Camera camera)
+    // margin: 화면 가장자리에서 안쪽으로 줄일 여백 (월드 단위)
+    public ScreenMovementBoundary(Camera camera, float margin = 0f)
     {
         worldCamera = camera;
+        this.margin = margin;
     }
 
     public Vector2 GetRandomPoint(int tryCount)
@@ -40,11 +43,13 @@ public class ScreenMovementBoundary : IMovementBoundary
 
     private Vector2 GetWorldMin()
     {
-        return worldCamera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+        Vector2 raw = worldCamera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+        return new Vector2(raw.x + margin, raw.y + margin);
     }
 
     private Vector2 GetWorldMax()
     {
-        return worldCamera.ViewportToWorldPoint(new Vector3(1f, 1f, 0f));
+        Vector2 raw = worldCamera.ViewportToWorldPoint(new Vector3(1f, 1f, 0f));
+        return new Vector2(raw.x - margin, raw.y - margin);
     }
 }

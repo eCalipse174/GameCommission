@@ -88,6 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db802923735cce4abe45e246fe521ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClosetOutfitSlot
-  iconImage: {fileID: 0}
-  dragItemPrefab: {fileID: 0}
+  iconImage: {fileID: 6535868456418929367}
+  dragItemPrefab: {fileID: 4927911641721773351, guid: 83d0031df796ace4587ae7beb3f58b48, type: 3}
   worldCamera: {fileID: 0}

@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClosetPanel : MonoBehaviour
 {
     [SerializeField] private GameObject panelRoot;
     [SerializeField] private Transform slotContainer;
     [SerializeField] private ClosetOutfitSlot slotPrefab;
+
+    public bool IsOpen => panelRoot.activeSelf;
 
     public void Open(OutfitManager targetOutfitManager)
     {

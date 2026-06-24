@@ -1,10 +1,67 @@
 fileFormatVersion: 2
-guid: d9c856c7e9d0dab45b54b28d948d4fe4
+guid: e81ab53150a69f84fb1990e4c24e1b5e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 649223268058989734
-    second: Button_0
+      213: -8567186622430992613
+    second: temp_0
+  - first:
+      213: -2261327995457166861
+    second: temp_1
+  - first:
+      213: 8745322115954160273
+    second: temp_2
+  - first:
+      213: -565464752652085650
+    second: temp_3
+  - first:
+      213: -2142828324144449258
+    second: temp_4
+  - first:
+      213: 4603455339990160366
+    second: temp_5
+  - first:
+      213: 3944306975531898561
+    second: temp_6
+  - first:
+      213: -9059789658751367362
+    second: temp_7
+  - first:
+      213: 2384413834954791759
+    second: temp_8
+  - first:
+      213: -7307997345420304702
+    second: temp_9
+  - first:
+      213: 5629144372083115928
+    second: temp_10
+  - first:
+      213: -1606550136845464520
+    second: temp_11
+  - first:
+      213: -9000275550964384939
+    second: temp_12
+  - first:
+      213: 4099707557266668184
+    second: temp_13
+  - first:
+      213: 4672891606392880243
+    second: temp_14
+  - first:
+      213: 7627785028916856148
+    second: temp_15
+  - first:
+      213: -4119949387094758745
+    second: temp_16
+  - first:
+      213: 46433421343453393
+    second: temp_17
+  - first:
+      213: 9069202446231421658
+    second: temp_18
+  - first:
+      213: -4051933630821349242
+    second: temp_19
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,13 +103,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 30
-  spriteBorder: {x: 3, y: 3, z: 3, w: 3}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -75,7 +132,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,23 +183,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button_0
+      name: temp_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 112
         y: 0
-        width: 47
-        height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 799
+        height: 189
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6a403906f11820900800000000000000
-      internalID: 649223268058989734
+      spriteID: 401f701eea7a541429dc6830ea31225b
+      internalID: -8567186622430992613
       vertices: []
       indices: 
       edges: []
@@ -151,17 +208,19 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 5f5443522e7271e4b88a2785b15870dd
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Button_0: 649223268058989734
+      temp_0: -8567186622430992613
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
