@@ -51,11 +51,6 @@ public class SaveManager
                 character.GetComponent
                 <CharacterGrowth>();
 
-            CharacterDialogueRuntime
-                dialogue =
-                    character.GetComponent
-                    <CharacterDialogueRuntime>();
-
             CharacterSaveData data =
                 new CharacterSaveData();
 
@@ -75,9 +70,6 @@ public class SaveManager
 
             data.growthStage =
                 growth.CurrentStage;
-
-            data.dialogueScript =
-                dialogue.GetScript();
 
             OutfitManager outfitManager =
                 character.GetComponent<OutfitManager>();
@@ -158,14 +150,6 @@ public class SaveManager
                 growth.LoadGrowthData(
                     save.growthPoint,
                     save.growthStage);
-
-                CharacterDialogueRuntime
-                    dialogue =
-                        character.GetComponent
-                        <CharacterDialogueRuntime>();
-
-                dialogue.SetScript(
-                    save.dialogueScript);
 
                 OutfitManager outfitManager =
                     character.GetComponent<OutfitManager>();

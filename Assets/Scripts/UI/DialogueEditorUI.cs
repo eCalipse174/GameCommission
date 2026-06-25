@@ -119,22 +119,22 @@ public class DialogueEditorUI : MonoBehaviour
                 editorData[stage][type] = new List<string>();
         }
 
-        string script = dialogueRuntime.GetScript();
-        if (string.IsNullOrEmpty(script)) return;
+        //string script = dialogueRuntime.GetScript();
+        //if (string.IsNullOrEmpty(script)) return;
 
-        var parsed = DialogueParser.Parse(script);
-        foreach (var kv in parsed)
-        {
-            DialogueType type = kv.Key;
-            foreach (DialogueEntry entry in kv.Value)
-            {
-                if (editorData.ContainsKey(entry.stage) &&
-                    editorData[entry.stage].ContainsKey(type))
-                {
-                    editorData[entry.stage][type].Add(entry.text);
-                }
-            }
-        }
+        //var parsed = DialogueParser.Parse(script);
+        //foreach (var kv in parsed)
+        //{
+        //    DialogueType type = kv.Key;
+        //    foreach (DialogueEntry entry in kv.Value)
+        //    {
+        //        if (editorData.ContainsKey(entry.stage) &&
+        //            editorData[entry.stage].ContainsKey(type))
+        //        {
+        //            editorData[entry.stage][type].Add(entry.text);
+        //        }
+        //    }
+        //}
     }
 
     // ── 2. 탭 전환 ───────────────────────────────────────────────
@@ -239,7 +239,7 @@ public class DialogueEditorUI : MonoBehaviour
             }
         }
 
-        dialogueRuntime.SetScript(sb.ToString());
+        //dialogueRuntime.SetScript(sb.ToString());
         Debug.Log($"[DialogueEditorUI] {dialogueRuntime.gameObject.name} 대사 저장 완료!");
     }
 

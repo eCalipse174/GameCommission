@@ -40,4 +40,24 @@ MonoBehaviour:
   angrySprite: {fileID: 0}
   sleepySprite: {fileID: 0}
   surprisedSprite: {fileID: 0}
-  dialogues: []
+  dialogues:
+  - type: 0
+    stage: 2
+    lines:
+    - "\uAE30\uBCF8\uB300\uC0AC1"
+    - "\uAE30\uBCF8\uB300\uC0AC2"
+  - type: 1
+    stage: 2
+    lines:
+    - "\uBC30\uACE0\uD504\uB2E41"
+    - "\uBC30\uACE0\uD504\uB2E42"
+  - type: 3
+    stage: 2
+    lines:
+    - "\uC57C\uD6381"
+    - "\uC57C\uD6382"
+  - type: 4
+    stage: 2
+    lines:
+    - "\uC544\uC624"
+    - "\uC544\uC6242"

@@ -1,51 +1,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDialogueRuntime
-    : MonoBehaviour
+public class CharacterDialogueRuntime : MonoBehaviour
 {
-    [SerializeField]
-    [TextArea(20, 40)]
-    private string dialogueScript;
-
-    private Dictionary
-    <DialogueType,
-    List<DialogueEntry>>
-    dialogueMap;
-
+    private Dictionary<DialogueType, List<DialogueEntry>> dialogueMap;
     private CharacterGrowth growth;
+    private CharacterController controller;
 
     private void Awake()
     {
-        growth =
-            GetComponent<CharacterGrowth>();
-
+        growth = GetComponent<CharacterGrowth>();
+        controller = GetComponent<CharacterController>();
         BuildRuntimeData();
     }
 
     private void BuildRuntimeData()
     {
-        dialogueMap =
-            DialogueParser.Parse(
-                dialogueScript);
+        dialogueMap = new Dictionary<DialogueType, List<DialogueEntry>>();
+
+        DialogueData[] dialogues = controller.Data.dialogues;
+        if (dialogues == null) return;
+
+        foreach (DialogueData data in dialogues)
+        {
+            if (!dialogueMap.ContainsKey(data.type))
+            {
+                dialogueMap.Add(data.type, new List<DialogueEntry>());
+            }
+
+            foreach (string line in data.lines)
+            {
+                dialogueMap[data.type].Add(
+                    new DialogueEntry { text = line, stage = data.stage });
+            }
+        }
     }
 
-    public string GetRandomDialogue(
-        DialogueType type)
+    public string GetRandomDialogue(DialogueType type)
     {
         if (!dialogueMap.ContainsKey(type))
         {
             return string.Empty;
         }
 
-        List<DialogueEntry> valid =
-            new List<DialogueEntry>();
-
-        foreach (DialogueEntry entry
-            in dialogueMap[type])
+        List<DialogueEntry> valid = new List<DialogueEntry>();
+        foreach (DialogueEntry entry in dialogueMap[type])
         {
-            if (entry.stage ==
-                growth.CurrentStage)
+            if (entry.stage == growth.CurrentStage)
             {
                 valid.Add(entry);
             }
@@ -56,24 +57,7 @@ public class CharacterDialogueRuntime
             return string.Empty;
         }
 
-        int index =
-            Random.Range(
-                0,
-                valid.Count);
-
+        int index = Random.Range(0, valid.Count);
         return valid[index].text;
-    }
-
-    public void SetScript(
-        string script)
-    {
-        dialogueScript = script;
-
-        BuildRuntimeData();
-    }
-
-    public string GetScript()
-    {
-        return dialogueScript;
     }
 }

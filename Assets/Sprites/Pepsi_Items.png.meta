@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 9283e4cfc73c30f4e8b0222c84c022b0
+guid: b4481d6f13b1f0e458faea65e79ad474
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8038692737245094841
-    second: HungryEffect_0
+      213: -1721963433269066575
+    second: Pepsi_Items_0
   - first:
-      213: -5324534403013893732
-    second: HungryEffect_1
+      213: -3189915813679088041
+    second: Pepsi_Items_1
   - first:
-      213: 2005537885128368599
-    second: HungryEffect_2
+      213: -7992281548824280908
+    second: Pepsi_Items_2
   - first:
-      213: -391844108604810781
-    second: HungryEffect_3
+      213: -872664313684121819
+    second: Pepsi_Items_3
   - first:
-      213: -2413809222382936785
-    second: HungryEffect_4
+      213: 2397022653120071388
+    second: Pepsi_Items_4
   - first:
-      213: -8563247949477587715
-    second: HungryEffect_5
+      213: 4330563424618457150
+    second: Pepsi_Items_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -90,7 +90,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -141,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HungryEffect_0
+      name: Pepsi_Items_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 60
-        height: 63
+        x: 16
+        y: 16
+        width: 33
+        height: 40
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,8 +156,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 74c5ef9db83d07090800000000000000
-      internalID: -8038692737245094841
+      spriteID: 1b409cb716b5a18e0800000000000000
+      internalID: -1721963433269066575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pepsi_Items_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 19
+        width: 43
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75eb146e7742bb3d0800000000000000
+      internalID: -3189915813679088041
       vertices: []
       indices: 
       edges: []
@@ -166,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c3e8a79bacdb3864ca290d5df689ae03
+    spriteID: edf5640f8628b9b4c8b924f674555086
     internalID: 0
     vertices: []
     indices: 
@@ -176,12 +198,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      HungryEffect_0: -8038692737245094841
-      HungryEffect_1: -5324534403013893732
-      HungryEffect_2: 2005537885128368599
-      HungryEffect_3: -391844108604810781
-      HungryEffect_4: -2413809222382936785
-      HungryEffect_5: -8563247949477587715
+      Pepsi_Items_0: -1721963433269066575
+      Pepsi_Items_1: -3189915813679088041
+      Pepsi_Items_2: -7992281548824280908
+      Pepsi_Items_3: -872664313684121819
+      Pepsi_Items_4: 2397022653120071388
+      Pepsi_Items_5: 4330563424618457150
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

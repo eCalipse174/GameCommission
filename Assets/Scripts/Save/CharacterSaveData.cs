@@ -8,6 +8,5 @@ public class CharacterSaveData
     public float posY;
     public int growthPoint;
     public GrowthStage growthStage;
-    public string dialogueScript;
-    public string outfitId; // Ãß°¡
+    public string outfitId;
 }
