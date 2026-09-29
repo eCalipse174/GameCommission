@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c803965f7fa09024a9a103990c944529, type: 3}
   m_Name: Character
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  characterName: 
+  characterName: "\uD551\uD06C\uB3CC\uACE0\uB798"
   gender: 2
   description: 
   moveSpeed: 1
@@ -44,20 +44,42 @@ MonoBehaviour:
   - type: 0
     stage: 2
     lines:
-    - "\uAE30\uBCF8\uB300\uC0AC1"
-    - "\uAE30\uBCF8\uB300\uC0AC2"
+    - "\uD765, \uC654\uB124"
+    - "\uB610 \uC654\uC5B4?"
+    - "\uC548 \uAE30\uB2E4\uB838\uAC70\uB4E0"
+    - "\uC2EC\uC2EC\uD55C \uAC74 \uC544\uB2C8\uC57C"
+    - "\uBB50 \uD558\uACE0 \uB180\uAE4C"
+    - "\uC228\uC740 \uC798 \uC26C\uACE0 \uC788\uC74C??"
+    - "\uB098 \uBD88\uB800\uC11C???"
+    - "\uC65C \uAC00\uB9CC\uD788 \uC788\uC2B4?"
+    - "\uC624\uB298 \uC62C \uC218 \uC788\uC5B4?"
   - type: 1
     stage: 2
     lines:
-    - "\uBC30\uACE0\uD504\uB2E41"
-    - "\uBC30\uACE0\uD504\uB2E42"
+    - "\uBC30\uACE0\uD30C"
+    - "\uBC8C\uC368 \uC57D\uC18D\uC758 \uC2DC\uAC04\uC774\uB2E4"
+    - "\uBCC4\uD48D\uC120 \uB0B4\uB194"
+    - "\uBE68\uB9AC \uC918"
+    - "\uAD76\uAE38 \uAC70\uC784?"
+    - "\uD55C\uC785\uB9CC"
+    - "\uAF2C\uB974\uB975.."
   - type: 3
     stage: 2
     lines:
-    - "\uC57C\uD6381"
-    - "\uC57C\uD6382"
+    - "\uD765.. \uACE0\uB9C8\uC6CC\u314B"
+    - "\uB098\uC058\uC9C0 \uC54A\uB124\u314B"
+    - "\uC798\uD588\uB124\u314B"
+    - "\uB9C8\uC74C\uC5D0 \uB4E4\uC5B4\u314B"
+    - "\uD569\uACA9\u314B"
+    - "\uC624\uB298\uB9CC \uBD10\uC900\uB2E4\u314B"
+    - "\uAD7F\u314B"
+    - "\u3143\u3139 \uB180\uC544 \uC8FC\uB77C\uAC70"
   - type: 4
     stage: 2
     lines:
-    - "\uC544\uC624"
-    - "\uC544\uC6242"
+    - "\uC5B4\uD5C8"
+    - "\uC9DC\uC99D \uB098"
+    - "\uD55C \uBC88\uB9CC \uBD10\uC900\uB2E4"
+    - "\uC870\uC2EC\uD574"
+    - "\uC815\uC218\uB9AC \uB0C4\uC0C8 \uB9E1\uAC8C \uD55C\uB2E4"
+    - "\uC7A5\uAE30 \uD734\uBC29 \uAC08\uAC8C"
