@@ -5,6 +5,7 @@ public class CharacterInteraction : MonoBehaviour
     private CharacterController controller;
     private Camera mainCamera;
     private CharacterAnimator characterAnimator;
+    private SleepController sleepController;
     private CharacterInputState currentState;
     private bool pointerDown;
     private bool dragging;
@@ -21,11 +22,19 @@ public class CharacterInteraction : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         characterAnimator = GetComponent<CharacterAnimator>();
+        sleepController = GetComponent<SleepController>();
         mainCamera = Camera.main;
     }
 
     private void OnMouseDown()
     {
+        // A press on a sleeping character only wakes it up.
+        if (sleepController != null && sleepController.IsSleeping)
+        {
+            sleepController.RequestWake();
+            return;
+        }
+
         pointerDown = true;
         dragging = false;
         canStartDrag = false;
@@ -43,6 +52,8 @@ public class CharacterInteraction : MonoBehaviour
 
     private void OnMouseUp()
     {
+        bool wasDragging = dragging;
+
         if (!dragging && pressTimer < LONG_PRESS_TIME)
         {
             OnTap();
@@ -53,6 +64,12 @@ public class CharacterInteraction : MonoBehaviour
         currentState = CharacterInputState.None;
         characterAnimator.SetDragging(dragging);
         controller.ResumeAI();
+
+        // Must run after ResumeAI so the sleep lock is not undone.
+        if (wasDragging && sleepController != null)
+        {
+            sleepController.NotifyDropped(GetMouseWorldPosition());
+        }
     }
 
     private void Update()
@@ -95,6 +112,13 @@ public class CharacterInteraction : MonoBehaviour
 
     private void OnRightClick()
     {
+        // Wake first, otherwise the menu close callback would
+        // resume the AI of a sleeping character.
+        if (sleepController != null)
+        {
+            sleepController.RequestWake();
+        }
+
         controller.PauseAI();
         contextMenu.Open(controller, () => controller.ResumeAI());
     }

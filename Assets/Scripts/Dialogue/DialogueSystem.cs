@@ -8,13 +8,30 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField]
     private float maxTalkInterval = 15f;
 
+    [Header("Sleep Talk")]
+    [SerializeField]
+    private DialogueType sleepTalkType =
+        DialogueType.Sleepy;
+
+    [SerializeField]
+    private float minSleepTalkInterval = 10f;
+
+    [SerializeField]
+    private float maxSleepTalkInterval = 20f;
+
     private CharacterController controller;
 
     private SpeechBubbleView speechBubbleView;
 
     private CharacterDialogueRuntime runtimeDialogue;
 
+    private SleepController sleepController;
+
     private float talkTimer;
+
+    private bool IsSleeping =>
+        sleepController != null &&
+        sleepController.IsSleeping;
 
     private void Awake()
     {
@@ -26,6 +43,27 @@ public class DialogueSystem : MonoBehaviour
             <SpeechBubbleView>();
 
         runtimeDialogue = GetComponent<CharacterDialogueRuntime>();
+
+        sleepController =
+            GetComponent<SleepController>();
+    }
+
+    private void OnEnable()
+    {
+        if (sleepController != null)
+        {
+            sleepController.OnSleepStateChanged +=
+                HandleSleepStateChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (sleepController != null)
+        {
+            sleepController.OnSleepStateChanged -=
+                HandleSleepStateChanged;
+        }
     }
 
     private void Start()
@@ -35,7 +73,9 @@ public class DialogueSystem : MonoBehaviour
 
     private void Update()
     {
-        if (controller.IsLocked)
+        // A sleeping character is locked by SleepController,
+        // so the lock check must let sleep talk through.
+        if (controller.IsLocked && !IsSleeping)
         {
             return;
         }
@@ -55,13 +95,22 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    private void HandleSleepStateChanged(bool sleeping)
+    {
+        ResetTimer();
+    }
+
     private void TryTalk()
     {
-        if (controller.IsLocked)
+        bool sleeping = IsSleeping;
+
+        if (controller.IsLocked && !sleeping)
             return;
 
         DialogueType type =
-            GetCurrentDialogueType();
+            sleeping
+            ? sleepTalkType
+            : GetCurrentDialogueType();
 
         string line =
             GetRandomDialogue(type);
@@ -112,9 +161,17 @@ public class DialogueSystem : MonoBehaviour
 
     private void ResetTimer()
     {
+        float min =
+            IsSleeping
+            ? minSleepTalkInterval
+            : minTalkInterval;
+
+        float max =
+            IsSleeping
+            ? maxSleepTalkInterval
+            : maxTalkInterval;
+
         talkTimer =
-            Random.Range(
-                minTalkInterval,
-                maxTalkInterval);
+            Random.Range(min, max);
     }
 }

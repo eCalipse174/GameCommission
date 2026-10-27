@@ -13,18 +13,28 @@ public class CharacterDialogueAgent
 
     private CharacterController controller;
 
+    private SleepController sleepController;
+
     public bool Busy =>
-        controller.IsLocked;
+        controller.IsLocked ||
+        IsSleeping;
+
+    private bool IsSleeping =>
+        sleepController != null &&
+        sleepController.IsSleeping;
 
     private void Awake()
     {
         controller =
             GetComponent<CharacterController>();
+
+        sleepController =
+            GetComponent<SleepController>();
     }
 
     private void Update()
     {
-        if (controller.IsLocked)
+        if (Busy)
             return;
 
         cooldown -= Time.deltaTime;

@@ -19,7 +19,13 @@ public class CharacterInteractionDialogue
     private CharacterDialogueRuntime
         runtimeDialogue;
 
+    private SleepController sleepController;
+
     private bool interactionRunning;
+
+    private bool IsSleeping =>
+        sleepController != null &&
+        sleepController.IsSleeping;
 
     private void Awake()
     {
@@ -33,11 +39,17 @@ public class CharacterInteractionDialogue
         runtimeDialogue =
             GetComponent<
                 CharacterDialogueRuntime>();
+
+        sleepController =
+            GetComponent<SleepController>();
     }
 
     private void Update()
     {
         if (interactionRunning)
+            return;
+
+        if (IsSleeping)
             return;
 
         if (controller.IsInteracting)
@@ -64,6 +76,9 @@ public class CharacterInteractionDialogue
         foreach (var other in others)
         {
             if (other == this)
+                continue;
+
+            if (other.IsSleeping)
                 continue;
 
             if (other.controller
